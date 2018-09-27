@@ -74,7 +74,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        TxtPesquisa = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
@@ -318,7 +318,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel9.setText("Nome:");
 
-        jTextField5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtPesquisa.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -328,7 +328,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 .addGap(43, 43, 43)
                 .addComponent(jLabel9)
                 .addGap(59, 59, 59)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TxtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(233, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -337,7 +337,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -442,6 +442,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtId;
     private javax.swing.JTextField TxtNascimento;
     private javax.swing.JTextField TxtNomeCompleto;
+    private javax.swing.JTextField TxtPesquisa;
     private javax.swing.JTextField TxtRG;
     private javax.swing.JFormattedTextField TxtTelefone1;
     private javax.swing.JFormattedTextField TxtTelefone2;
@@ -470,6 +471,5 @@ public class ClienteView extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
