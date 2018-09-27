@@ -153,7 +153,7 @@ public class PrincipalView extends javax.swing.JFrame {
              //  função pra centralizar o jInternalFrame abaixo
         cliente.setLocation(
             PainelPrincipal.getWidth()/2 - cliente.getWidth()/2,
-            PainelPrincipal.getHeight()/2- cliente.getHeight()/2);
+            PainelPrincipal.getHeight()/3- cliente.getHeight()/2);
         cliente.setVisible(true); 
                 
     }//GEN-LAST:event_jLabel1MouseClicked
@@ -193,7 +193,7 @@ public class PrincipalView extends javax.swing.JFrame {
              //  função pra centralizar o jInternalFrame abaixo
         serviços.setLocation(
             PainelPrincipal.getWidth()/2 - serviços.getWidth()/2,
-            PainelPrincipal.getHeight()/2- serviços.getHeight()/2);
+            PainelPrincipal.getHeight()/4- serviços.getHeight()/2);
         serviços.setVisible(true);
     }//GEN-LAST:event_jLabel4MouseClicked
 
