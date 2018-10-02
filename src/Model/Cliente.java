@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -12,23 +12,31 @@ package Model;
 public class Cliente {
     
     private int Id;
-    private String Nome;
+    private String Nome;    
     private String Rg; 
     private String Cpf;
     private String Nascimento;
-    private String Endereço; 
+    private String Rua; 
+    private String Numero;
+    private String Bairro;
+    private String Cidade;
+    private String Cep;
     private String Telefone1;
     private String Telefone2;
     private String Email;
     private String Descrição;
 
-    public Cliente(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Endereço, String Telefone1, String Telefone2, String Email, String Descrição) {
+    public Cliente(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Rua, String Numero, String Bairro, String Cidade, String Cep, String Telefone1, String Telefone2, String Email, String Descrição) {
         this.Id = Id;
         this.Nome = Nome;
         this.Rg = Rg;
         this.Cpf = Cpf;
         this.Nascimento = Nascimento;
-        this.Endereço = Endereço;
+        this.Rua = Rua;
+        this.Numero = Numero;
+        this.Bairro = Bairro;
+        this.Cidade = Cidade;
+        this.Cep = Cep;
         this.Telefone1 = Telefone1;
         this.Telefone2 = Telefone2;
         this.Email = Email;
@@ -78,12 +86,44 @@ public class Cliente {
         this.Nascimento = Nascimento;
     }
 
-    public String getEndereço() {
-        return Endereço;
+    public String getRua() {
+        return Rua;
     }
 
-    public void setEndereço(String Endereço) {
-        this.Endereço = Endereço;
+    public void setRua(String Rua) {
+        this.Rua = Rua;
+    }
+
+    public String getNumero() {
+        return Numero;
+    }
+
+    public void setNumero(String Numero) {
+        this.Numero = Numero;
+    }
+
+    public String getBairro() {
+        return Bairro;
+    }
+
+    public void setBairro(String Bairro) {
+        this.Bairro = Bairro;
+    }
+
+    public String getCidade() {
+        return Cidade;
+    }
+
+    public void setCidade(String Cidade) {
+        this.Cidade = Cidade;
+    }
+
+    public String getCep() {
+        return Cep;
+    }
+
+    public void setCep(String Cep) {
+        this.Cep = Cep;
     }
 
     public String getTelefone1() {
@@ -117,7 +157,6 @@ public class Cliente {
     public void setDescrição(String Descrição) {
         this.Descrição = Descrição;
     }
-    
-    
-    
+     
+  
 }
