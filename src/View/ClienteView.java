@@ -106,7 +106,53 @@ public class ClienteView extends javax.swing.JInternalFrame {
             TblCliente.setRowHeight(35);
             TblCliente.updateUI();
     }
+    
+    public void atualizaTableClienteBusca(){
+        cliente = new Cliente();
+        
+        String dados[][] = new String[listacliente.size()][6];
+            int i = 0;
+            for (Cliente cliente : listacliente) {
+                dados[i][0] = String.valueOf(cliente.getId());
+                dados[i][1] = cliente.getNome();
+                dados[i][2] = cliente.getRg();
+                dados[i][3] = cliente.getCpf();
+                dados[i][4] = cliente.getNascimento();
+                dados[i][5] = cliente.getTelefone1();
+           
+                i++;
+            }
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false
+                };
 
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblCliente.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblCliente.getColumnModel().getColumn(0).setMinWidth(0);
+            TblCliente.getColumnModel().getColumn(0).setPreferredWidth(0);
+            
+            TblCliente.getColumnModel().getColumn(1).setPreferredWidth(400);
+            TblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            TblCliente.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TblCliente.getColumnModel().getColumn(4).setPreferredWidth(100);
+            TblCliente.getColumnModel().getColumn(5).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblCliente.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+            TblCliente.setRowHeight(35);
+            TblCliente.updateUI();
+        
+    }
     public void DesativarCampos(){
         TxtNomeCompleto.setEnabled(false);
         TxtRG.setEnabled(false);
@@ -375,7 +421,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TxtTelefone1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TxtTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -856,7 +902,23 @@ public class ClienteView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TblClienteMouseClicked
 
     private void TxtPesquisaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaCaretUpdate
-       
+        listacliente = null;
+        if(TxtPesquisa.getText().equals("")){
+            atualizaTabelaCliente();
+        }
+        else{
+            try {
+                listacliente = clientedao.BuscarNome(TxtPesquisa.getText());
+                if(listacliente == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCliente();
+                }else{
+                    atualizaTableClienteBusca();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_TxtPesquisaCaretUpdate
 
 
