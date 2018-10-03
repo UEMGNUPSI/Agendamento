@@ -661,7 +661,7 @@
                           <Component id="BtnAlterar" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="BtnExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="37" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

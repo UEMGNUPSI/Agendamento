@@ -13,13 +13,13 @@ public class Agendamento {
     
     private int Id;
     private Cliente cliente;
-    private Funcionário funcionario;
+    private Funcionario funcionario;
     private Profissional profissional;
     private Serviço serviço;
     private String Dia;
     private String Horario;
 
-    public Agendamento(int Id, Cliente cliente, Funcionário funcionario, Profissional profissional, Serviço serviço, String Dia, String Horario) {
+    public Agendamento(int Id, Cliente cliente, Funcionario funcionario, Profissional profissional, Serviço serviço, String Dia, String Horario) {
         this.Id = Id;
         this.cliente = cliente;
         this.funcionario = funcionario;
@@ -48,11 +48,11 @@ public class Agendamento {
         this.cliente = cliente;
     }
 
-    public Funcionário getFuncionario() {
+    public Funcionario getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Funcionário funcionario) {
+    public void setFuncionario(Funcionario funcionario) {
         this.funcionario = funcionario;
     }
 

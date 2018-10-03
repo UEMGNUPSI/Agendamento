@@ -47,9 +47,8 @@ public class ClienteView extends javax.swing.JInternalFrame {
         TblCliente.setUI(new BasicTableUI());
         
         TxtId.setVisible(false);
-        BtnAlterar.setEnabled(false);
-        BtnExcluir.setEnabled(false);
         PainelCliente.setSelectedIndex(1);
+        PrepararCancelarSalvar();
         atualizaTabelaCliente();
         DesativarCampos();
       
@@ -166,9 +165,9 @@ public class ClienteView extends javax.swing.JInternalFrame {
         TxtBairro.setEnabled(false);
         TxtEndereco.setEnabled(false);
         TxtNumero.setEnabled(false);
-        TxtAdicional.setEnabled(false);
-        
+        TxtAdicional.setEnabled(false);   
     }
+    
     public void AtivarCampos(){
         TxtNomeCompleto.setEnabled(true);
         TxtRG.setEnabled(true);
@@ -182,8 +181,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         TxtBairro.setEnabled(true);
         TxtEndereco.setEnabled(true);
         TxtNumero.setEnabled(true);
-        TxtAdicional.setEnabled(true);
-        
+        TxtAdicional.setEnabled(true); 
     }
     
     public void PrepararNovo(){
@@ -203,7 +201,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         BtnCancelar.setEnabled(false);
         BtnSalvar.setEnabled(false);
         TblCliente.setEnabled(true);
-        BtnExcluir.setEnabled(true);
+        BtnExcluir.setEnabled(false);
         BtnSair.setEnabled(true);
         BtnSair1.setEnabled(true);
     }
@@ -712,7 +710,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                     .addComponent(BtnSair1)
                     .addComponent(BtnAlterar)
                     .addComponent(BtnExcluir))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(37, 37, 37))
         );
 
         PainelCliente.addTab("   Consultar   ", jPanel1);

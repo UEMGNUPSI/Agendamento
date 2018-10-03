@@ -77,7 +77,11 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/menuFuncionario.png"))); // NOI18N
         jLabel2.setText("Funcionários");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
@@ -91,17 +95,17 @@ public class PrincipalView extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(112, Short.MAX_VALUE)
+                .addContainerGap(104, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(48, 48, 48)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel5)
-                .addGap(85, 85, 85)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel3)
-                .addGap(85, 85, 85)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel4)
-                .addGap(85, 85, 85)
+                .addGap(70, 70, 70)
                 .addComponent(jLabel2)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(105, Short.MAX_VALUE))
             .addComponent(jSeparator1)
         );
         jPanel1Layout.setVerticalGroup(
