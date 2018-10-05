@@ -12,15 +12,20 @@ package Model;
 public class Profissional {
     
     private int Id;
-    private String Nome;
-    private String Rg;
+    private String Nome;    
+    private String Rg; 
     private String Cpf;
     private String Nascimento;
-    private String Endereço;
     private String Telefone1;
     private String Telefone2;
+    private String Rua; 
+    private String Numero;
+    private String Bairro;
+    private String Cidade;
+    private String Cep;
     private String Email;
-    private String Serviço;
+    private String Formacao;
+    
     //private String Formação;
     
 }

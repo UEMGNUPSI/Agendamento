@@ -197,7 +197,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        ServiçosView serviços = new ServiçosView();
+        ServicosView serviços = new ServicosView();
         ((BasicInternalFrameUI)serviços.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
         PainelPrincipal.add(serviços);

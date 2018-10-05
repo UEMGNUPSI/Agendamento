@@ -9,19 +9,22 @@ package Model;
  *
  * @author Dc
  */
-public class Serviço {
+public class Servico {
     
     private int Id;
-    private String Nome;
+    private String Descricao;
     private String Tempo;
+    private String Area;
 
-    public Serviço(int Id, String Nome, String Tempo) {
+    public Servico(int Id, String Descricao, String Area, String Tempo) {
         this.Id = Id;
-        this.Nome = Nome;
+        this.Descricao = Descricao;
+        this.Area = Area;
         this.Tempo = Tempo;
+       
     }
 
-    public Serviço() {
+    public Servico() {
     }
 
     public int getId() {
@@ -32,12 +35,12 @@ public class Serviço {
         this.Id = Id;
     }
 
-    public String getNome() {
-        return Nome;
+    public String getDescricao() {
+        return Descricao;
     }
 
-    public void setNome(String Nome) {
-        this.Nome = Nome;
+    public void setDescricao(String Descricao) {
+        this.Descricao = Descricao;
     }
 
     public String getTempo() {
@@ -47,6 +50,15 @@ public class Serviço {
     public void setTempo(String Tempo) {
         this.Tempo = Tempo;
     }
+
+    public String getArea() {
+        return Area;
+    }
+
+    public void setArea(String Area) {
+        this.Area = Area;
+    }
+
     
     
 }

@@ -15,11 +15,11 @@ public class Agendamento {
     private Cliente cliente;
     private Funcionario funcionario;
     private Profissional profissional;
-    private Serviço serviço;
+    private Servico serviço;
     private String Dia;
     private String Horario;
 
-    public Agendamento(int Id, Cliente cliente, Funcionario funcionario, Profissional profissional, Serviço serviço, String Dia, String Horario) {
+    public Agendamento(int Id, Cliente cliente, Funcionario funcionario, Profissional profissional, Servico serviço, String Dia, String Horario) {
         this.Id = Id;
         this.cliente = cliente;
         this.funcionario = funcionario;
@@ -64,11 +64,11 @@ public class Agendamento {
         this.profissional = profissional;
     }
 
-    public Serviço getServiço() {
+    public Servico getServiço() {
         return serviço;
     }
 
-    public void setServiço(Serviço serviço) {
+    public void setServiço(Servico serviço) {
         this.serviço = serviço;
     }
 
