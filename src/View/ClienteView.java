@@ -811,35 +811,60 @@ public class ClienteView extends javax.swing.JInternalFrame {
         cliente = new Cliente();
         clientedao = new ClienteDAO();     
        
+       // Verificações de campos obrigatorios
+        if(TxtNomeCompleto.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtNomeCompleto.requestFocus();
+            return;
+        }
+        if(TxtNascimento.getText().equals("  /  /    ")){
+            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtNascimento.requestFocus();
+            return;
+        }
+        if(TxtRG.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtRG.requestFocus();
+            return;
+        }
+        if(TxtCPF.getText().equals("   .   .   -  ")){
+            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtCPF.requestFocus();
+            return;
+        }
+        if(TxtTelefone1.getText().equals("(  )     -    ")){
+            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtTelefone1.requestFocus();
+            return;
+        }
+        
         //Validação do CPF
         Boolean ValidacaoCPF = ValidaCPF.isCPF(TxtCPF.getText());
         if(ValidacaoCPF == false){
-             JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
-             return;
+            JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtCPF.requestFocus();
+            return;
         }
-       //Iniciação da validão de data verdadeira;
-       Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
-       if(ValidacaoData == false){
-         JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
-         return;
-       }
-       //Validao Email
-       Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
-       if(ValidaoEmail == false){
-         JOptionPane.showMessageDialog(null, "Email invalido!");
-         return;
-       }
-       
-        if(TxtNomeCompleto.getText().isEmpty() || TxtRG.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios !","erro", JOptionPane.WARNING_MESSAGE);
+        //Iniciação da validão de data verdadeira;
+        Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
+        if(ValidacaoData == false){
+            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+            TxtNascimento.requestFocus();
+            return;
         }
+           
+        if(!TxtEmail.getText().isEmpty()){
+             //Validao Email
+            Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
+            if(ValidaoEmail == false){
+               JOptionPane.showMessageDialog(null, "Email invalido!");
+               TxtEmail.requestFocus();
+               return;
+            }
+        }
+           
         else if(TxtId.getText().isEmpty()){
-            
-               
-            
-            
-            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
-            
+            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
             cliente.setNome(TxtNomeCompleto.getText());
             cliente.setNascimento(TxtNascimento.getText());
             cliente.setRg(TxtRG.getText());

@@ -913,24 +913,67 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         funcionario = new Funcionario();
         
+         // Verificações de campos obrigatorios
+        if(TxtNomeCompleto.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtNomeCompleto.requestFocus();
+            return;
+        }
+        if(TxtNascimento.getText().equals("  /  /    ")){
+            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtNascimento.requestFocus();
+            return;
+        }
+        if(TxtRG.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtRG.requestFocus();
+            return;
+        }
+        if(TxtCPF.getText().equals("   .   .   -  ")){
+            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtCPF.requestFocus();
+            return;
+        }
+        if(TxtTelefone1.getText().equals("(  )     -    ")){
+            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtTelefone1.requestFocus();
+            return;
+        }
+        if(TxtLogin.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Necessário um login !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtLogin.requestFocus();
+            return;
+        }
+        if(TxtSenha.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Necessário uma senha !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtSenha.requestFocus();
+            return;
+        }
+        
         //Validação do CPF
-        Boolean Validacao = ValidaCPF.isCPF(TxtCPF.getText());
-        if(Validacao == false){
-             JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
-             return;
+        Boolean ValidacaoCPF = ValidaCPF.isCPF(TxtCPF.getText());
+        if(ValidacaoCPF == false){
+            JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+            TxtCPF.requestFocus();
+            return;
         }
         //Iniciação da validão de data verdadeira;
-       Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
-       if(ValidacaoData == false){
-         JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
-         return;
-       }
-       //Validao Email
-       Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
-       if(ValidaoEmail == false){
-         JOptionPane.showMessageDialog(null, "Email invalido!");
-         return;
-       }
+        Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
+        if(ValidacaoData == false){
+            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+            TxtNascimento.requestFocus();
+            return;
+        }
+           
+        if(!TxtEmail.getText().isEmpty()){
+             //Validao Email
+            Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
+            if(ValidaoEmail == false){
+               JOptionPane.showMessageDialog(null, "Email invalido!");
+               TxtEmail.requestFocus();
+               return;
+            }
+        }
        
         Boolean auxnivel;
         if (RadioAdm.isSelected() == true) {
@@ -939,10 +982,8 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
             auxnivel = false;
         }
         
-        if(TxtSenha.getText().equals("") || TxtNascimento.getText().equals("  /  /    ")){
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos !","erro", JOptionPane.WARNING_MESSAGE);
-        }
-        else if(TxtSenha.getText().equals(TxtSenhaRepetida.getText())){
+        
+        if(TxtSenha.getText().equals(TxtSenhaRepetida.getText())){
             
             if(TxtId.getText().isEmpty()){
                 //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
