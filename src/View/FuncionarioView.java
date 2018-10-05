@@ -7,8 +7,14 @@ package View;
 
 import DAO.FuncionarioDAO;
 import Model.Funcionario;
+import Valida.ValidaCPF;
+import Valida.ValidaData;
+import Valida.ValidaEmail;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -907,6 +913,25 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         funcionario = new Funcionario();
         
+        //Validação do CPF
+        Boolean Validacao = ValidaCPF.isCPF(TxtCPF.getText());
+        if(Validacao == false){
+             JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+        //Iniciação da validão de data verdadeira;
+       Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
+       if(ValidacaoData == false){
+         JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+         return;
+       }
+       //Validao Email
+       Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
+       if(ValidaoEmail == false){
+         JOptionPane.showMessageDialog(null, "Email invalido!");
+         return;
+       }
+       
         Boolean auxnivel;
         if (RadioAdm.isSelected() == true) {
             auxnivel = true;
@@ -914,10 +939,11 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
             auxnivel = false;
         }
         
-        if(TxtSenha.getText().equals("")){
+        if(TxtSenha.getText().equals("") || TxtNascimento.getText().equals("  /  /    ")){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos !","erro", JOptionPane.WARNING_MESSAGE);
         }
         else if(TxtSenha.getText().equals(TxtSenhaRepetida.getText())){
+            
             if(TxtId.getText().isEmpty()){
                 //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
                 funcionario.setNome(TxtNomeCompleto.getText());

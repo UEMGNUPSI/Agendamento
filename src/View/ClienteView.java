@@ -8,9 +8,16 @@ package View;
 
 import DAO.ClienteDAO;
 import Model.Cliente;
+import Valida.ValidaCPF;
+import Valida.ValidaData;
+import Valida.ValidaEmail;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +40,8 @@ public class ClienteView extends javax.swing.JInternalFrame {
     Cliente cliente = new Cliente();
     ClienteDAO clientedao = new ClienteDAO();
     List<Cliente> listacliente = new ArrayList<>();
+    
+    ValidaCPF validacpf = new ValidaCPF();
     
     public ClienteView(){
         initComponents();
@@ -224,6 +233,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
     }
     
     
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -799,11 +809,35 @@ public class ClienteView extends javax.swing.JInternalFrame {
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
         cliente = new Cliente();
-        clientedao = new ClienteDAO();
+        clientedao = new ClienteDAO();     
+       
+        //Validação do CPF
+        Boolean ValidacaoCPF = ValidaCPF.isCPF(TxtCPF.getText());
+        if(ValidacaoCPF == false){
+             JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+       //Iniciação da validão de data verdadeira;
+       Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
+       if(ValidacaoData == false){
+         JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+         return;
+       }
+       //Validao Email
+       Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
+       if(ValidaoEmail == false){
+         JOptionPane.showMessageDialog(null, "Email invalido!");
+         return;
+       }
+       
         if(TxtNomeCompleto.getText().isEmpty() || TxtRG.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatorios !","erro", JOptionPane.WARNING_MESSAGE);
         }
         else if(TxtId.getText().isEmpty()){
+            
+               
+            
+            
             //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
             
             cliente.setNome(TxtNomeCompleto.getText());
