@@ -63,7 +63,11 @@ public class PrincipalView extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/menuServico.png"))); // NOI18N
         jLabel4.setText("Serviços");
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jLabel4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);
@@ -95,7 +99,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(104, Short.MAX_VALUE)
+                .addContainerGap(92, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel5)
@@ -105,7 +109,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel2)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
             .addComponent(jSeparator1)
         );
         jPanel1Layout.setVerticalGroup(
@@ -205,7 +209,7 @@ public class PrincipalView extends javax.swing.JFrame {
              //  função pra centralizar o jInternalFrame abaixo
         serviços.setLocation(
             PainelPrincipal.getWidth()/2 - serviços.getWidth()/2,
-            PainelPrincipal.getHeight()/4- serviços.getHeight()/2);
+            PainelPrincipal.getHeight()/2- serviços.getHeight()/2);
         serviços.setVisible(true);
     }//GEN-LAST:event_jLabel4MouseClicked
 

@@ -23,11 +23,11 @@ public class ServicoDAO {
         PreparedStatement pst;
         String sql;
         
-        sql =  "INSERT INTO serviços SET descricao = ?, area = ?, tempo = ?";
+        sql =  "INSERT INTO serviços SET descricao = ?, idarea = ?, tempo = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setString(1, servico.getDescricao());
-        pst.setString(2, servico.getArea());
+        pst.setInt(2, servico.getIdArea());
         pst.setString(3, servico.getTempo());
         pst.execute();
         pst.close();
@@ -37,11 +37,11 @@ public class ServicoDAO {
         PreparedStatement pst;
         String sql;
         
-        sql = "UPDATE serviços set descricao = ?, area = ?, tempo = ? where idserviços = ?";
+        sql = "UPDATE serviços set descricao = ?, idarea = ?, tempo = ? where idserviços = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setString(1, servico.getDescricao());
-        pst.setString(2, servico.getArea());
+        pst.setInt(2, servico.getIdArea());
         pst.setString(3, servico.getTempo());
         pst.setInt(4, servico.getId());
         
@@ -67,7 +67,7 @@ public class ServicoDAO {
         String sql;   
         List<Servico> listaservico = new ArrayList<>();
         
-        sql = "SELECT idserviços, descricao, area, TIME_FORMAT(tempo, '%h:%i') AS tempo FROM serviços ORDER BY area";
+        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços ORDER BY idarea";
         pst = conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         
@@ -75,8 +75,8 @@ public class ServicoDAO {
             listaservico.add(new Servico(
                                 rs.getInt("idserviços"),
                                 rs.getString("descricao"),
-                                rs.getString("area"),
-                                rs.getString("tempo")));
+                                rs.getString("tempo"),
+                                rs.getInt("idarea")));
         }
         
         pst.close();
@@ -89,7 +89,7 @@ public class ServicoDAO {
          List<Servico> listaservico = new ArrayList<>();
         String name = "%"+descricao+"%";
         
-        sql = "SELECT idserviços, descricao, area, TIME_FORMAT(tempo, '%h:%i') AS tempo FROM serviços where descricao LIKE ?";
+        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços where descricao LIKE ?";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, name);
         ResultSet rs = pst.executeQuery();
@@ -98,8 +98,8 @@ public class ServicoDAO {
             listaservico.add(new Servico(
                             rs.getInt("idserviços"),
                             rs.getString("descricao"),
-                            rs.getString("area"),
-                            rs.getString("tempo")));
+                            rs.getString("tempo"),
+                            rs.getInt("idarea")));
         }
         
         pst.close();

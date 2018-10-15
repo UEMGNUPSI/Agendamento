@@ -5,7 +5,9 @@
  */
 package View;
 
+import DAO.AreaDAO;
 import DAO.ServicoDAO;
+import Model.Area;
 import Model.Funcionario;
 import Model.Servico;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
@@ -31,8 +33,15 @@ public class ServicosView extends javax.swing.JInternalFrame {
     ServicoDAO servicodao = new ServicoDAO();
     List<Servico> listaservico = new ArrayList<>();
     
-    public ServicosView() {
+    Area area = new Area();
+    AreaDAO areadao = new AreaDAO();
+    List<Area> listaarea = new ArrayList<>();
+    
+    public ServicosView(){
         initComponents();
+        
+        
+        jDArea.setSize(721,301);
         PainelServico.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
         BtnAlterar.setUI(new WindowsButtonUI());
@@ -41,6 +50,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         BtnNovo.setUI(new WindowsButtonUI());
         BtnSair.setUI(new WindowsButtonUI());
         BtnSalvar.setUI(new WindowsButtonUI());
+        BtnNovaArea.setUI(new WindowsButtonUI());
         TblServico.setUI(new BasicTableUI());
         
         TxtId.setVisible(false);
@@ -48,12 +58,80 @@ public class ServicosView extends javax.swing.JInternalFrame {
         atualizaTabelaServico();
         DesativarCampos();
         PrepararCancelarSalvar();
+        try {
+            preencherCombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //jDlog
+        BtnAlterarJD.setUI(new WindowsButtonUI());
+        BtnCancelarJD.setUI(new WindowsButtonUI());
+        BtnExcluirJD.setUI(new WindowsButtonUI());
+        BtnNovoJD.setUI(new WindowsButtonUI());
+        BtnSalvarJD.setUI(new WindowsButtonUI());
+        TblArea.setUI(new BasicTableUI());
+        TxtIdArea.setVisible(false);
+        DesativarCampo();
+        PrepararCancelarSalvarArea();
+        atualizaTableArea();
+    }
+    
+    public void preencherCombo() throws SQLException{
+        
+        for(Area a: areadao.listaTodos()){
+            ComboArea.addItem(a);
+        }
+        
+    }
+    
+    public void atualizaTableArea(){
+        area = new Area();
+        
+        try {
+            listaarea = areadao.listaTodos();
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String dados[][] = new String[listaarea.size()][2];
+            int i = 0;
+            for (Area area : listaarea) {
+                dados[i][0] = String.valueOf(area.getId());
+                dados[i][1] = area.getNome();                     
+                i++;
+            }
+        
+        String tituloColuna[] = {"Id", "Área"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblArea.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+            
+            TblArea.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblArea.getColumnModel().getColumn(0).setMinWidth(0);
+            TblArea.getColumnModel().getColumn(0).setPreferredWidth(0);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblArea.getColumnModel().getColumn(1).setCellRenderer(centralizado);
+            TblArea.setRowHeight(35);
+            TblArea.updateUI();
     }
     
     public void atualizaTabelaServico(){
         servico = new Servico();
         try {
             listaservico = servicodao.listaTodos();
+            listaarea    = areadao.listaTodos();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
@@ -62,8 +140,11 @@ public class ServicosView extends javax.swing.JInternalFrame {
             int i = 0;
             for (Servico servico : listaservico) {
                 dados[i][0] = String.valueOf(servico.getId());
-                dados[i][1] = servico.getDescricao();
-                dados[i][2] = servico.getArea();
+                dados[i][1] = servico.getDescricao();              
+                for(Area area: listaarea){    
+                    if(servico.getIdArea() == area.getId()){
+                         dados[i][2] = String.valueOf(area.getNome());
+                    }}
                 dados[i][3] = servico.getTempo();
                 i++;
             }
@@ -85,6 +166,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             TblServico.getColumnModel().getColumn(0).setMaxWidth(0);
             TblServico.getColumnModel().getColumn(0).setMinWidth(0);
             TblServico.getColumnModel().getColumn(0).setPreferredWidth(0);
+
             
             TblServico.getColumnModel().getColumn(1).setPreferredWidth(350);
             TblServico.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -106,7 +188,10 @@ public class ServicosView extends javax.swing.JInternalFrame {
             for (Servico servico : listaservico) {
                 dados[i][0] = String.valueOf(servico.getId());
                 dados[i][1] = servico.getDescricao();
-                dados[i][2] = servico.getArea();
+                for(Area area: listaarea){    
+                    if(servico.getIdArea() == area.getId()){
+                         dados[i][2] = String.valueOf(area.getNome());
+                    }}
                 dados[i][3] = servico.getTempo();
                 i++;
             }
@@ -140,16 +225,34 @@ public class ServicosView extends javax.swing.JInternalFrame {
             TblServico.updateUI();
     }
     
+    public void DesativarCampo(){
+        TxtNomeArea.setEnabled(false);
+    }
+    
     public void DesativarCampos(){
        TxtDescricao.setEnabled(false);
-       TxtArea.setEnabled(false);
+       ComboArea.setEnabled(false);
        TxtTempo.setEnabled(false);
+    }
+    
+    public void AtivarCampo(){
+        TxtNomeArea.setEnabled(true);
     }
     
     public void AtivarCampos(){
        TxtDescricao.setEnabled(true);
-       TxtArea.setEnabled(true);
+       ComboArea.setEnabled(true);
        TxtTempo.setEnabled(true);
+    }
+    
+    public void PrepararNovoArea(){
+        BtnAlterarJD.setEnabled(false);
+        BtnCancelarJD.setEnabled(true);
+        BtnExcluirJD.setEnabled(false);
+        BtnSalvarJD.setEnabled(true);
+        BtnNovoJD.setEnabled(false);
+        TblArea.setEnabled(false);
+        TblArea.clearSelection();
     }
     
     public void PrepararNovo(){
@@ -164,6 +267,15 @@ public class ServicosView extends javax.swing.JInternalFrame {
         TblServico.clearSelection();
     }
     
+    public void PrepararCancelarSalvarArea(){
+        BtnAlterarJD.setEnabled(false);
+        BtnCancelarJD.setEnabled(false);
+        BtnExcluirJD.setEnabled(false);
+        BtnSalvarJD.setEnabled(false);
+        BtnNovoJD.setEnabled(true);  
+        TblArea.setEnabled(true);
+    }
+    
     public void PrepararCancelarSalvar(){
         BtnNovo.setEnabled(true);
         BtnAlterar.setEnabled(false);
@@ -175,9 +287,13 @@ public class ServicosView extends javax.swing.JInternalFrame {
         BtnSair1.setEnabled(true);
     }
     
+    public void LimparCampo(){
+        TxtNomeArea.setText("");
+    }
+    
     public void LimparCampos(){
         TxtDescricao.setText("");
-        TxtArea.setText("");
+        ComboArea.setSelectedIndex(0);
         TxtTempo.setText("");
         TxtId.setText("");
     }
@@ -186,6 +302,20 @@ public class ServicosView extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDArea = new javax.swing.JDialog();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TblArea = new javax.swing.JTable();
+        BtnAlterarJD = new javax.swing.JButton();
+        BtnSalvarJD = new javax.swing.JButton();
+        BtnExcluirJD = new javax.swing.JButton();
+        BtnCancelarJD = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        TxtNomeArea = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        BtnNovoJD = new javax.swing.JButton();
+        TxtIdArea = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         PainelServico = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -195,8 +325,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         TxtTempo = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
-        TxtArea = new javax.swing.JTextField();
         TxtId = new javax.swing.JTextField();
+        ComboArea = new javax.swing.JComboBox<>();
+        BtnNovaArea = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnSalvar = new javax.swing.JButton();
         BtnNovo = new javax.swing.JButton();
@@ -211,6 +342,167 @@ public class ServicosView extends javax.swing.JInternalFrame {
         TxtPesquisa = new javax.swing.JTextField();
         BtnSair1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+
+        jDArea.setBackground(new java.awt.Color(255, 255, 255));
+        jDArea.setMaximumSize(new java.awt.Dimension(721, 301));
+        jDArea.setMinimumSize(new java.awt.Dimension(721, 301));
+        jDArea.setUndecorated(true);
+        jDArea.setPreferredSize(new java.awt.Dimension(732, 301));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setMaximumSize(new java.awt.Dimension(721, 301));
+        jPanel6.setMinimumSize(new java.awt.Dimension(721, 301));
+        jPanel6.setPreferredSize(new java.awt.Dimension(721, 301));
+
+        TblArea.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Título 1"
+            }
+        ));
+        TblArea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblAreaMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(TblArea);
+
+        BtnAlterarJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnAlterarJD.setText("ALTERAR");
+        BtnAlterarJD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAlterarJDActionPerformed(evt);
+            }
+        });
+
+        BtnSalvarJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnSalvarJD.setText("SALVAR");
+        BtnSalvarJD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalvarJDActionPerformed(evt);
+            }
+        });
+
+        BtnExcluirJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnExcluirJD.setText("EXCLUIR");
+        BtnExcluirJD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirJDActionPerformed(evt);
+            }
+        });
+
+        BtnCancelarJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnCancelarJD.setText("CANCELAR");
+        BtnCancelarJD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelarJDActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel7.setText("Nome:");
+
+        TxtNomeArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        jLabel5.setText("Área");
+
+        BtnNovoJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnNovoJD.setText("NOVO");
+        BtnNovoJD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnNovoJDActionPerformed(evt);
+            }
+        });
+
+        TxtIdArea.setEnabled(false);
+
+        jLabel8.setText("X");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 9, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(TxtNomeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(BtnNovoJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BtnCancelarJD)
+                                .addGap(45, 45, 45)
+                                .addComponent(BtnSalvarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 27, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(BtnExcluirJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(77, 77, 77)
+                                .addComponent(BtnAlterarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
+                            .addComponent(TxtIdArea))))
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel8))
+                .addGap(23, 23, 23)
+                .addComponent(TxtIdArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(BtnNovoJD)
+                                .addComponent(BtnCancelarJD)
+                                .addComponent(BtnSalvarJD))
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(BtnAlterarJD)
+                                .addComponent(BtnExcluirJD))))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(TxtNomeArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDAreaLayout = new javax.swing.GroupLayout(jDArea.getContentPane());
+        jDArea.getContentPane().setLayout(jDAreaLayout);
+        jDAreaLayout.setHorizontalGroup(
+            jDAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jDAreaLayout.setVerticalGroup(
+            jDAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         setBorder(null);
 
@@ -242,9 +534,16 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel6.setText("Área:");
 
-        TxtArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-
         TxtId.setEnabled(false);
+
+        ComboArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+
+        BtnNovaArea.setText("Adicionar nova Área");
+        BtnNovaArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnNovaAreaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -263,8 +562,11 @@ public class ServicosView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(ComboArea, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnNovaArea)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,11 +575,12 @@ public class ServicosView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TxtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(TxtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                    .addComponent(ComboArea, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnNovaArea))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(TxtTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,7 +645,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnNovo)
                     .addComponent(BtnSalvar)
@@ -444,9 +747,8 @@ public class ServicosView extends javax.swing.JInternalFrame {
                         .addComponent(BtnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(BtnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane1)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40))
         );
         jPanel3Layout.setVerticalGroup(
@@ -457,11 +759,11 @@ public class ServicosView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BtnSair1)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(BtnAlterar)
-                        .addComponent(BtnExcluir)))
+                        .addComponent(BtnExcluir))
+                    .addComponent(BtnSair1))
                 .addGap(22, 22, 22))
         );
 
@@ -508,112 +810,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
-    servico = new Servico();
-       
-       
-       
-     if(TxtId.getText().isEmpty()){  
-        //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
-        servico.setDescricao(TxtDescricao.getText());
-        servico.setArea(TxtArea.getText());
-        servico.setTempo(TxtTempo.getText());
-        
-        try {
-            servicodao.Salvar(servico);
-            JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
-        } catch (SQLException ex) {
-            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-     else{
-        //Salva tudo que foi alterado nos campos de texto para o objeto e salva no banco de dados 
-        servico.setId(Integer.parseInt(TxtId.getText()));
-        servico.setDescricao(TxtDescricao.getText());
-        servico.setArea(TxtArea.getText());
-        servico.setTempo(TxtTempo.getText());
-        
-        try {
-            servicodao.Alterar(servico);
-            JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException ex) {
-            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     }
-        
-         atualizaTabelaServico();
-         DesativarCampos();
-         LimparCampos();
-         PrepararCancelarSalvar();
-       
-    }//GEN-LAST:event_BtnSalvarActionPerformed
-
-    private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoActionPerformed
-        PrepararNovo();
-        AtivarCampos();
-        LimparCampos();
-    }//GEN-LAST:event_BtnNovoActionPerformed
-
-    private void BtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSairActionPerformed
-         this.dispose();
-    }//GEN-LAST:event_BtnSairActionPerformed
-
-    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        LimparCampos();
-        DesativarCampos();
-        PrepararCancelarSalvar();
-    }//GEN-LAST:event_BtnCancelarActionPerformed
-
     private void BtnSair1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSair1ActionPerformed
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_BtnSair1ActionPerformed
-
-    private void TblServicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblServicoMouseClicked
-       LimparCampos();
-       
-       TxtId.setText(TblServico.getValueAt(TblServico.getSelectedRow(),0).toString());
-       TxtDescricao.setText(TblServico.getValueAt(TblServico.getSelectedRow(),1).toString());
-       TxtArea.setText(TblServico.getValueAt(TblServico.getSelectedRow(),2).toString());
-       TxtTempo.setText(TblServico.getValueAt(TblServico.getSelectedRow(),3).toString());
-       
-       
-       BtnAlterar.setEnabled(true);
-       BtnExcluir.setEnabled(true);
-    }//GEN-LAST:event_TblServicoMouseClicked
-
-    private void BtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarActionPerformed
-        AtivarCampos();
-        PrepararNovo();
-        PainelServico.setSelectedIndex(0);
-    }//GEN-LAST:event_BtnAlterarActionPerformed
-
-    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
-        servico = new Servico();
-
-        
-        if(TxtId.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
-       }
-       else{
-           servico.setId(Integer.parseInt(TxtId.getText()));
-           int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir: "+ TxtDescricao.getText());
-           if(confirma == 0){
-               
-               try {
-                   servicodao.Excluir(servico);
-                   JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                   LimparCampos();
-               } catch (SQLException ex) {
-                   Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
-               }
-                 atualizaTabelaServico();
-                BtnExcluir.setEnabled(false);
-                BtnAlterar.setEnabled(false);
-           }
-       }
-        
-    }//GEN-LAST:event_BtnExcluirActionPerformed
 
     private void TxtPesquisaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaCaretUpdate
         listaservico = null;
@@ -635,32 +834,239 @@ public class ServicosView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_TxtPesquisaCaretUpdate
 
+    private void BtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarActionPerformed
+        AtivarCampos();
+        PrepararNovo();
+        PainelServico.setSelectedIndex(0);
+    }//GEN-LAST:event_BtnAlterarActionPerformed
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+        servico = new Servico();
+
+        if(TxtId.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            servico.setId(Integer.parseInt(TxtId.getText()));
+            int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir: "+ TxtDescricao.getText());
+            if(confirma == 0){
+
+                try {
+                    servicodao.Excluir(servico);
+                    JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    LimparCampos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                atualizaTabelaServico();
+                BtnExcluir.setEnabled(false);
+                BtnAlterar.setEnabled(false);
+            }
+        }
+
+    }//GEN-LAST:event_BtnExcluirActionPerformed
+
+    private void TblServicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblServicoMouseClicked
+        LimparCampos();
+
+        TxtId.setText(TblServico.getValueAt(TblServico.getSelectedRow(),0).toString());
+        TxtDescricao.setText(TblServico.getValueAt(TblServico.getSelectedRow(),1).toString());
+        ComboArea.getModel().setSelectedItem(TblServico.getValueAt(TblServico.getSelectedRow(),2).toString());
+        TxtTempo.setText(TblServico.getValueAt(TblServico.getSelectedRow(),3).toString());
+        
+        BtnAlterar.setEnabled(true);
+        BtnExcluir.setEnabled(true);
+    }//GEN-LAST:event_TblServicoMouseClicked
+
+    private void BtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_BtnSairActionPerformed
+
+    private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoActionPerformed
+        PrepararNovo();
+        AtivarCampos();
+        LimparCampos();
+    }//GEN-LAST:event_BtnNovoActionPerformed
+
+    private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        servico = new Servico();
+        if(TxtId.getText().isEmpty()){
+            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
+            servico.setDescricao(TxtDescricao.getText());
+            Area area = (Area) ComboArea.getSelectedItem();
+            servico.setIdArea(area.getId());
+            servico.setTempo(TxtTempo.getText());
+
+            try {
+                servicodao.Salvar(servico);
+                JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        else{
+            //Salva tudo que foi alterado nos campos de texto para o objeto e salva no banco de dados
+            servico.setId(Integer.parseInt(TxtId.getText()));
+            servico.setDescricao(TxtDescricao.getText());
+            Area area = (Area) ComboArea.getSelectedItem();
+            servico.setIdArea(area.getId());
+            servico.setTempo(TxtTempo.getText());
+
+            try {
+                servicodao.Alterar(servico);
+                JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        atualizaTabelaServico();
+        DesativarCampos();
+        LimparCampos();
+        PrepararCancelarSalvar();
+
+    }//GEN-LAST:event_BtnSalvarActionPerformed
+
+    private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
+        LimparCampos();
+        DesativarCampos();
+        PrepararCancelarSalvar();
+    }//GEN-LAST:event_BtnCancelarActionPerformed
+
+    private void BtnSalvarJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarJDActionPerformed
+       area = new Area();
+       
+       if(TxtIdArea.getText().isEmpty()){
+            area.setNome(TxtNomeArea.getText());
+
+             try {
+                 areadao.Salvar(area);
+                 JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+             } catch (SQLException ex) {
+                 Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+             }
+       }
+       else{
+           area.setId(Integer.parseInt(TxtIdArea.getText()));
+           area.setNome(TxtNomeArea.getText());
+
+             try {
+                 areadao.Alterar(area);
+                 JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+             } catch (SQLException ex) {
+                 Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+             }
+       }
+       
+        atualizaTableArea();
+        DesativarCampo();
+        LimparCampo();
+        PrepararCancelarSalvarArea();
+    }//GEN-LAST:event_BtnSalvarJDActionPerformed
+
+    private void BtnNovaAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovaAreaActionPerformed
+        jDArea.setVisible(true);
+        jDArea.setLocationRelativeTo(null);
+    }//GEN-LAST:event_BtnNovaAreaActionPerformed
+
+    private void BtnNovoJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoJDActionPerformed
+         PrepararNovoArea();
+         LimparCampo();
+         AtivarCampo();
+    }//GEN-LAST:event_BtnNovoJDActionPerformed
+
+    private void BtnCancelarJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarJDActionPerformed
+        LimparCampo();
+        DesativarCampo();
+        PrepararCancelarSalvarArea();
+    }//GEN-LAST:event_BtnCancelarJDActionPerformed
+
+    private void BtnExcluirJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirJDActionPerformed
+         area = new Area();
+
+        if(TxtIdArea.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+        }
+        else{
+            area.setId(Integer.parseInt(TxtIdArea.getText()));
+            int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir: "+ TxtDescricao.getText());
+            if(confirma == 0){
+
+                try {
+                    areadao.Excluir(area);
+                    JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    LimparCampos();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                atualizaTableArea();
+                BtnExcluirJD.setEnabled(false);
+                BtnAlterarJD.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_BtnExcluirJDActionPerformed
+
+    private void TblAreaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblAreaMouseClicked
+        LimparCampo();
+
+        TxtIdArea.setText(TblArea.getValueAt(TblArea.getSelectedRow(),0).toString());
+        TxtNomeArea.setText(TblArea.getValueAt(TblArea.getSelectedRow(),1).toString());
+        
+        BtnAlterarJD.setEnabled(true);
+        BtnExcluirJD.setEnabled(true);
+    }//GEN-LAST:event_TblAreaMouseClicked
+
+    private void BtnAlterarJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarJDActionPerformed
+        AtivarCampo();
+        PrepararNovoArea();
+    }//GEN-LAST:event_BtnAlterarJDActionPerformed
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        jDArea.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAlterar;
+    private javax.swing.JButton BtnAlterarJD;
     private javax.swing.JButton BtnCancelar;
+    private javax.swing.JButton BtnCancelarJD;
     private javax.swing.JButton BtnExcluir;
+    private javax.swing.JButton BtnExcluirJD;
+    private javax.swing.JButton BtnNovaArea;
     private javax.swing.JButton BtnNovo;
+    private javax.swing.JButton BtnNovoJD;
     private javax.swing.JButton BtnSair;
     private javax.swing.JButton BtnSair1;
     private javax.swing.JButton BtnSalvar;
+    private javax.swing.JButton BtnSalvarJD;
+    private javax.swing.JComboBox<Object> ComboArea;
     private javax.swing.JTabbedPane PainelServico;
+    private javax.swing.JTable TblArea;
     private javax.swing.JTable TblServico;
-    private javax.swing.JTextField TxtArea;
     private javax.swing.JTextField TxtDescricao;
     private javax.swing.JTextField TxtId;
+    private javax.swing.JTextField TxtIdArea;
+    private javax.swing.JTextField TxtNomeArea;
     private javax.swing.JTextField TxtPesquisa;
     private javax.swing.JFormattedTextField TxtTempo;
+    private javax.swing.JDialog jDArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

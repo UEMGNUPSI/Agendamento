@@ -14,14 +14,13 @@ public class Servico {
     private int Id;
     private String Descricao;
     private String Tempo;
-    private String Area;
+    private int IdArea;
 
-    public Servico(int Id, String Descricao, String Area, String Tempo) {
+    public Servico(int Id, String Descricao, String Tempo, int IdArea) {
         this.Id = Id;
         this.Descricao = Descricao;
-        this.Area = Area;
         this.Tempo = Tempo;
-       
+        this.IdArea = IdArea;
     }
 
     public Servico() {
@@ -51,14 +50,15 @@ public class Servico {
         this.Tempo = Tempo;
     }
 
-    public String getArea() {
-        return Area;
+    public int getIdArea() {
+        return IdArea;
     }
 
-    public void setArea(String Area) {
-        this.Area = Area;
+    public void setIdArea(int IdArea) {
+        this.IdArea = IdArea;
     }
 
+   
     
     
 }

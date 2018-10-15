@@ -863,7 +863,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
         }
            
-        else if(TxtId.getText().isEmpty()){
+       if(TxtId.getText().isEmpty()){
             //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
             cliente.setNome(TxtNomeCompleto.getText());
             cliente.setNascimento(TxtNascimento.getText());
