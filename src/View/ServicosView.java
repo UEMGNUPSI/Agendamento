@@ -41,7 +41,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         initComponents();
         
         
-        jDArea.setSize(721,301);
+        jDArea.setSize(721,311);
         PainelServico.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
         BtnAlterar.setUI(new WindowsButtonUI());
@@ -315,7 +315,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         BtnNovoJD = new javax.swing.JButton();
         TxtIdArea = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         PainelServico = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
@@ -344,15 +344,16 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
 
         jDArea.setBackground(new java.awt.Color(255, 255, 255));
-        jDArea.setMaximumSize(new java.awt.Dimension(721, 301));
-        jDArea.setMinimumSize(new java.awt.Dimension(721, 301));
+        jDArea.setMaximumSize(new java.awt.Dimension(721, 311));
+        jDArea.setMinimumSize(new java.awt.Dimension(721, 311));
         jDArea.setUndecorated(true);
-        jDArea.setPreferredSize(new java.awt.Dimension(732, 301));
+        jDArea.setPreferredSize(new java.awt.Dimension(732, 311));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setMaximumSize(new java.awt.Dimension(721, 301));
-        jPanel6.setMinimumSize(new java.awt.Dimension(721, 301));
-        jPanel6.setPreferredSize(new java.awt.Dimension(721, 301));
+        jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jPanel6.setMaximumSize(new java.awt.Dimension(721, 311));
+        jPanel6.setMinimumSize(new java.awt.Dimension(721, 311));
+        jPanel6.setPreferredSize(new java.awt.Dimension(721, 311));
 
         TblArea.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -409,7 +410,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
         TxtNomeArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
         jLabel5.setText("Área");
 
         BtnNovoJD.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -422,10 +423,10 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
         TxtIdArea.setEnabled(false);
 
-        jLabel8.setText("X");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMG/fechar.png"))); // NOI18N
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                jLabel9MouseClicked(evt);
             }
         });
 
@@ -434,45 +435,46 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 9, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(TxtNomeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addComponent(BtnNovoJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BtnCancelarJD)
-                                .addGap(45, 45, 45)
-                                .addComponent(BtnSalvarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 27, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(BtnExcluirJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(77, 77, 77)
-                                .addComponent(BtnAlterarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
-                            .addComponent(TxtIdArea))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(TxtNomeArea, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(BtnNovoJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnCancelarJD)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnSalvarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 25, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(BtnExcluirJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnAlterarJD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TxtIdArea, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel8))
-                .addGap(23, 23, 23)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
                 .addComponent(TxtIdArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -883,6 +885,13 @@ public class ServicosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnSairActionPerformed
 
     private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoActionPerformed
+        try {
+            ComboArea.removeAllItems();
+            preencherCombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
         PrepararNovo();
         AtivarCampos();
         LimparCampos();
@@ -966,6 +975,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnSalvarJDActionPerformed
 
     private void BtnNovaAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovaAreaActionPerformed
+        LimparCampo();
+        DesativarCampo();
+        PrepararCancelarSalvarArea();
         jDArea.setVisible(true);
         jDArea.setLocationRelativeTo(null);
     }//GEN-LAST:event_BtnNovaAreaActionPerformed
@@ -996,13 +1008,15 @@ public class ServicosView extends javax.swing.JInternalFrame {
                 try {
                     areadao.Excluir(area);
                     JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    LimparCampos();
+                    LimparCampo();
                 } catch (SQLException ex) {
                     Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                LimparCampo();
                 atualizaTableArea();
                 BtnExcluirJD.setEnabled(false);
                 BtnAlterarJD.setEnabled(false);
+                
             }
         }
     }//GEN-LAST:event_BtnExcluirJDActionPerformed
@@ -1022,9 +1036,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
         PrepararNovoArea();
     }//GEN-LAST:event_BtnAlterarJDActionPerformed
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        jDArea.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+         jDArea.dispose();
+    }//GEN-LAST:event_jLabel9MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1059,7 +1073,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
