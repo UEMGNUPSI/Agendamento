@@ -12,21 +12,27 @@ package Model;
 public class Agendamento {
     
     private int Id;
-    private Cliente cliente;
-    private Funcionario funcionario;
-    private Profissional profissional;
-    private Servico serviço;
-    private String Dia;
-    private String Horario;
+    private int Idcliente;
+    private int Idfuncionario;
+    private int Idprofissional;
+    private int Idserviço;
+    private String dataAgendamento;
+    private String horarioAgendamento;
+    private String dataCancelamento;
+    private String dataAtendimento;
+    private String horarioAtendimento;
 
-    public Agendamento(int Id, Cliente cliente, Funcionario funcionario, Profissional profissional, Servico serviço, String Dia, String Horario) {
+    public Agendamento(int Id, int Idcliente, int Idfuncionario, int Idprofissional, int Idserviço, String dataAgendamento, String horarioAgendamento, String dataCancelamento, String dataAtendimento, String horarioAtendimento) {
         this.Id = Id;
-        this.cliente = cliente;
-        this.funcionario = funcionario;
-        this.profissional = profissional;
-        this.serviço = serviço;
-        this.Dia = Dia;
-        this.Horario = Horario;
+        this.Idcliente = Idcliente;
+        this.Idfuncionario = Idfuncionario;
+        this.Idprofissional = Idprofissional;
+        this.Idserviço = Idserviço;
+        this.dataAgendamento = dataAgendamento;
+        this.horarioAgendamento = horarioAgendamento;
+        this.dataCancelamento = dataCancelamento;
+        this.dataAtendimento = dataAtendimento;
+        this.horarioAtendimento = horarioAtendimento;
     }
 
     public Agendamento() {
@@ -40,52 +46,82 @@ public class Agendamento {
         this.Id = Id;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public int getIdcliente() {
+        return Idcliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setIdcliente(int Idcliente) {
+        this.Idcliente = Idcliente;
     }
 
-    public Funcionario getFuncionario() {
-        return funcionario;
+    public int getIdfuncionario() {
+        return Idfuncionario;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
-        this.funcionario = funcionario;
+    public void setIdfuncionario(int Idfuncionario) {
+        this.Idfuncionario = Idfuncionario;
     }
 
-    public Profissional getProfissional() {
-        return profissional;
+    public int getIdprofissional() {
+        return Idprofissional;
     }
 
-    public void setProfissional(Profissional profissional) {
-        this.profissional = profissional;
+    public void setIdprofissional(int Idprofissional) {
+        this.Idprofissional = Idprofissional;
     }
 
-    public Servico getServiço() {
-        return serviço;
+    public int getIdserviço() {
+        return Idserviço;
     }
 
-    public void setServiço(Servico serviço) {
-        this.serviço = serviço;
+    public void setIdserviço(int Idserviço) {
+        this.Idserviço = Idserviço;
     }
 
-    public String getDia() {
-        return Dia;
+    public String getDataAgendamento() {
+        return dataAgendamento;
     }
 
-    public void setDia(String Dia) {
-        this.Dia = Dia;
+    public void setDataAgendamento(String dataAgendamento) {
+        this.dataAgendamento = dataAgendamento;
     }
 
-    public String getHorario() {
-        return Horario;
+    public String getHorarioAgendamento() {
+        return horarioAgendamento;
     }
 
-    public void setHorario(String Horario) {
-        this.Horario = Horario;
+    public void setHorarioAgendamento(String horarioAgendamento) {
+        this.horarioAgendamento = horarioAgendamento;
     }
 
+    public String getDataCancelamento() {
+        return dataCancelamento;
+    }
+
+    public void setDataCancelamento(String dataCancelamento) {
+        this.dataCancelamento = dataCancelamento;
+    }
+
+    public String getDataAtendimento() {
+        return dataAtendimento;
+    }
+
+    public void setDataAtendimento(String dataAtendimento) {
+        this.dataAtendimento = dataAtendimento;
+    }
+
+    public String getHorarioAtendimento() {
+        return horarioAtendimento;
+    }
+
+    public void setHorarioAtendimento(String horarioAtendimento) {
+        this.horarioAtendimento = horarioAtendimento;
+    }
+
+   
+   
+
+    
+
+   
 }

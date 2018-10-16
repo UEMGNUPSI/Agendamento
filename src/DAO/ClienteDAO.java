@@ -167,15 +167,15 @@ public class ClienteDAO {
                             rs.getString("rg"),
                             rs.getString("cpf"),
                             rs.getString("nascimento"),
+                            rs.getString("telefone1"),
+                            rs.getString("telefone2"),
+                            rs.getString("email"),
+                            rs.getString("descricao"),
                             rs.getString("endereco"),
                             rs.getString("numero"),
                             rs.getString("bairro"),
                             rs.getString("cidade"),
-                            rs.getString("cep"),
-                            rs.getString("telefone1"),
-                            rs.getString("telefone2"),
-                            rs.getString("email"),
-                            rs.getString("descricao"));
+                            rs.getString("cep"));
                             
         }
         pst.close();

@@ -105,4 +105,28 @@ public class ServicoDAO {
         pst.close();
         return listaservico;
     }
+    
+    public Servico Buscar(Integer id) throws SQLException{
+        PreparedStatement pst;
+        String sql;   
+        Servico servico = null;
+        
+        sql ="SELECT idserviços, descricao, idarea , TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços where idserviços = ?";
+                
+        pst = conexao.getInstance().prepareStatement(sql);
+        pst.setInt(1, id);
+        ResultSet rs = pst.executeQuery();
+        
+            while(rs.next()){
+            servico = new Servico(
+                            rs.getInt("idserviços"),
+                            rs.getString("descricao"),
+                            rs.getString("tempo"),
+                            rs.getInt("idarea"));
+        }
+        
+            
+        return servico;
+        
+    }
 }

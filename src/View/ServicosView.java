@@ -363,10 +363,8 @@ public class ServicosView extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
 
         jDArea.setBackground(new java.awt.Color(255, 255, 255));
-        jDArea.setMaximumSize(new java.awt.Dimension(721, 311));
         jDArea.setMinimumSize(new java.awt.Dimension(721, 311));
         jDArea.setUndecorated(true);
-        jDArea.setPreferredSize(new java.awt.Dimension(732, 311));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));

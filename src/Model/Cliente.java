@@ -16,33 +16,33 @@ public class Cliente {
     private String Rg; 
     private String Cpf;
     private String Nascimento;
+    private String Telefone1;
+    private String Telefone2;
+    private String Email;
+    private String Descrição;
     private String Rua; 
     private String Numero;
     private String Bairro;
     private String Cidade;
     private String Cep;
-    private String Telefone1;
-    private String Telefone2;
-    private String Email;
-    private String Descrição;
 
-    public Cliente(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Rua, String Numero, String Bairro, String Cidade, String Cep, String Telefone1, String Telefone2, String Email, String Descrição) {
+    public Cliente(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Telefone1, String Telefone2, String Email, String Descrição, String Rua, String Numero, String Bairro, String Cidade, String Cep) {
         this.Id = Id;
         this.Nome = Nome;
         this.Rg = Rg;
         this.Cpf = Cpf;
         this.Nascimento = Nascimento;
+        this.Telefone1 = Telefone1;
+        this.Telefone2 = Telefone2;
+        this.Email = Email;
+        this.Descrição = Descrição;
         this.Rua = Rua;
         this.Numero = Numero;
         this.Bairro = Bairro;
         this.Cidade = Cidade;
         this.Cep = Cep;
-        this.Telefone1 = Telefone1;
-        this.Telefone2 = Telefone2;
-        this.Email = Email;
-        this.Descrição = Descrição;
     }
-
+    
     public Cliente() {
     }
 
