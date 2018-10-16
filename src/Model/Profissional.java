@@ -18,16 +18,16 @@ public class Profissional {
     private String Nascimento;
     private String Telefone1;
     private String Telefone2;
-    private String Rua; 
-    private String Numero;
-    private String Bairro;
+    private String Email;
+    private String Rua;
     private String Cidade;
     private String Cep;
-    private String Email;
+    private String Bairro;
+    private String Numero;
     private String Formacao;
-    private String Area;
+    private int IdArea;
 
-    public Profissional(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Telefone1, String Telefone2, String Rua, String Numero, String Bairro, String Cidade, String Cep, String Email, String Formacao, String Area) {
+    public Profissional(int Id, String Nome, String Rg, String Cpf, String Nascimento, String Telefone1, String Telefone2, String Email, String Rua, String Cidade, String Cep, String Bairro, String Numero, String Formacao, int IdArea) {
         this.Id = Id;
         this.Nome = Nome;
         this.Rg = Rg;
@@ -35,14 +35,14 @@ public class Profissional {
         this.Nascimento = Nascimento;
         this.Telefone1 = Telefone1;
         this.Telefone2 = Telefone2;
+        this.Email = Email;
         this.Rua = Rua;
-        this.Numero = Numero;
-        this.Bairro = Bairro;
         this.Cidade = Cidade;
         this.Cep = Cep;
-        this.Email = Email;
+        this.Bairro = Bairro;
+        this.Numero = Numero;
         this.Formacao = Formacao;
-        this.Area = Area;
+        this.IdArea = IdArea;
     }
 
     public Profissional() {
@@ -160,12 +160,17 @@ public class Profissional {
         this.Formacao = Formacao;
     }
 
-    public String getArea() {
-        return Area;
+    public int getIdArea() {
+        return IdArea;
     }
 
-    public void setArea(String Area) {
-        this.Area = Area;
+    public void setIdArea(int IdArea) {
+        this.IdArea = IdArea;
+    }
+
+    @Override
+    public String toString() {
+        return getNome(); //To change body of generated methods, choose Tools | Templates.
     }
     
     

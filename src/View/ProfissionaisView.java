@@ -5,17 +5,26 @@
  */
 package View;
 
+import DAO.AreaDAO;
 import DAO.ProfissionalDAO;
+import Model.Area;
+import Model.Funcionario;
 import Model.Profissional;
 import Valida.ValidaCPF;
 import Valida.ValidaData;
 import Valida.ValidaEmail;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicTableUI;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,6 +35,10 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
     Profissional profissional = new Profissional();
     ProfissionalDAO profissionaldao = new ProfissionalDAO();
     List<Profissional> listaprofissional = new ArrayList<>();
+      
+    Area area = new Area();
+    AreaDAO areadao = new AreaDAO();
+    List<Area> listaarea = new ArrayList<>();
     
     public ProfissionaisView() {
         initComponents();
@@ -41,8 +54,147 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         
         TxtId.setVisible(false);
         PainelProfissionais.setSelectedIndex(1);
+        atualizaTabelaProfissional();
         DesativarCampos();
         PrepararCancelarSalvar();
+        try {
+            preencherCombo();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void preencherCombo() throws SQLException{
+        
+        for(Area a: areadao.listaTodos()){
+            ComboArea.addItem(a);
+        }   
+    }
+    public void preencherComboSelecionado(Profissional area) throws SQLException{
+        int i = 0;
+        String aux;
+        for(Area a: areadao.listaTodos()){
+            ComboArea.addItem(a);
+            aux = a.getNome();
+            
+                if(a.getId()== area.getIdArea()){
+                    ComboArea.setSelectedIndex(i);              
+                }
+          
+            i++;
+        }   
+    }
+    
+    public void atualizaTabelaProfissional(){
+        profissional = new Profissional();
+        try {
+            listaprofissional = profissionaldao.listaTodos();
+            listaarea    = areadao.listaTodos();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaprofissional.size()][7];
+            int i = 0;
+            for (Profissional profissional : listaprofissional) {
+                dados[i][0] = String.valueOf(profissional.getId());
+                dados[i][1] = profissional.getNome();
+                dados[i][2] = profissional.getRg();
+                dados[i][3] = profissional.getCpf();
+                dados[i][4] = profissional.getNascimento();
+                dados[i][5] = profissional.getTelefone1();
+                for(Area area: listaarea){    
+                    if(profissional.getIdArea() == area.getId()){
+                         dados[i][6] = String.valueOf(area.getId());
+                    }}
+           
+                i++;
+            }
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal","Area"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblProfissionais.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false,false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblProfissionais.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setMinWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setPreferredWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setMaxWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setMinWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setPreferredWidth(0);
+            
+            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(400);
+            TblProfissionais.getColumnModel().getColumn(2).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(4).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(5).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblProfissionais.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+            TblProfissionais.setRowHeight(35);
+            TblProfissionais.updateUI();
+    }
+    
+    public void atualizaTabelaProfissionalBusca(){
+        profissional = new Profissional();
+        
+        String dados[][] = new String[listaprofissional.size()][7];
+            int i = 0;
+            for (Profissional profissional : listaprofissional) {
+                dados[i][0] = String.valueOf(profissional.getId());
+                dados[i][1] = profissional.getNome();
+                dados[i][2] = profissional.getRg();
+                dados[i][3] = profissional.getCpf();
+                dados[i][4] = profissional.getNascimento();
+                dados[i][5] = profissional.getTelefone1();
+                for(Area area: listaarea){    
+                    if(profissional.getIdArea() == area.getId()){
+                         dados[i][6] = String.valueOf(area.getId());
+                    }}
+           
+                i++;
+            }
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal","Area"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblProfissionais.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, false,false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblProfissionais.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setMinWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setPreferredWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setMaxWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setMinWidth(0);
+            TblProfissionais.getColumnModel().getColumn(6).setPreferredWidth(0);
+            
+            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(400);
+            TblProfissionais.getColumnModel().getColumn(2).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(4).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(5).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblProfissionais.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+            TblProfissionais.setRowHeight(35);
+            TblProfissionais.updateUI();
     }
     
     public void DesativarCampos(){
@@ -58,7 +210,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         TxtBairro.setEnabled(false);
         TxtEndereco.setEnabled(false);
         TxtNumero.setEnabled(false);
-        TxtArea.setEnabled(false);
+        ComboArea.setEnabled(false);
         TxtFormacao.setEnabled(false);
     }
     
@@ -75,7 +227,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         TxtBairro.setEnabled(true);
         TxtEndereco.setEnabled(true);
         TxtNumero.setEnabled(true);
-        TxtArea.setEnabled(true);
+        ComboArea.setEnabled(true);
         TxtFormacao.setEnabled(true);
     }
     
@@ -116,7 +268,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         TxtNumero.setText("");
         TxtEndereco.setText("");
         TxtBairro.setText("");
-        TxtArea.setText("");
+        ComboArea.setSelectedIndex(0);
         TxtFormacao.setText("");
         
     }
@@ -145,9 +297,9 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         TxtFormacao = new javax.swing.JTextField();
-        TxtArea = new javax.swing.JTextField();
         TxtCPF = new javax.swing.JFormattedTextField();
         TxtNascimento = new javax.swing.JFormattedTextField();
+        ComboArea = new javax.swing.JComboBox<>();
         BtnCancelar = new javax.swing.JButton();
         BtnSalvar = new javax.swing.JButton();
         BtnNovo = new javax.swing.JButton();
@@ -240,10 +392,8 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
 
         TxtFormacao.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
-        TxtArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-
         try {
-            TxtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-####")));
+            TxtCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -255,6 +405,8 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             ex.printStackTrace();
         }
         TxtNascimento.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+
+        ComboArea.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -279,11 +431,11 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
                                             .addComponent(jLabel11)
                                             .addComponent(TxtRG, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(30, 30, 30)
-                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel12)
                                             .addComponent(jLabel2)
-                                            .addComponent(TxtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(TxtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(TxtCPF, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                            .addComponent(ComboArea, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGap(30, 30, 30)
                                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(TxtTelefone1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -340,9 +492,9 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtFormacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ComboArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,7 +543,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         jLabel21.setText("CEP:");
 
         try {
-            TxtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-####")));
+            TxtCep.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("#####-###")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -443,7 +595,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel22)
                             .addComponent(TxtNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -528,6 +680,11 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         jLabel18.setText("Nome:");
 
         TxtPesquisa.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtPesquisa.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TxtPesquisaCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -562,13 +719,28 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             }
         ));
         TblProfissionais.setRowHeight(24);
+        TblProfissionais.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TblProfissionaisMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TblProfissionais);
 
         BtnExcluir.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnExcluir.setText("EXCLUIR");
+        BtnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnExcluirActionPerformed(evt);
+            }
+        });
 
         BtnAlterar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnAlterar.setText("ALTERAR");
+        BtnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAlterarActionPerformed(evt);
+            }
+        });
 
         BtnSair1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnSair1.setText("SAIR");
@@ -734,6 +906,8 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         }
         
        if(TxtId.getText().isEmpty()){
+           //Pega os dados do combobox e salva no objeto
+           Area area = (Area) ComboArea.getSelectedItem();
            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados
            profissional.setNome(TxtNomeCompleto.getText());
            profissional.setNascimento(TxtNascimento.getText());
@@ -742,7 +916,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            profissional.setTelefone1(TxtTelefone1.getText());
            profissional.setTelefone2(TxtTelefone2.getText());
            profissional.setFormacao(TxtFormacao.getText());
-           profissional.setArea(TxtArea.getText());
+           profissional.setIdArea(area.getId());
            profissional.setEmail(TxtEmail.getText());
            profissional.setCep(TxtCep.getText());
            profissional.setCidade(TxtCidade.getText());
@@ -750,7 +924,17 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            profissional.setRua(TxtEndereco.getText());
            profissional.setNumero(TxtNumero.getText());
            
+            try {
+                profissionaldao.Salvar(profissional);
+                JOptionPane.showMessageDialog(null, "Salvado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            } catch (SQLException ex) {
+                Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+           
        }else{
+           //Pega os dados do combobox e salva no objeto
+           Area area = (Area) ComboArea.getSelectedItem();
            //Salva tudo que foi alterado nos campos de texto para o objeto e salva no banco de dados
            profissional.setId(Integer.parseInt(TxtId.getText()));
            profissional.setNome(TxtNomeCompleto.getText());
@@ -760,7 +944,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            profissional.setTelefone1(TxtTelefone1.getText());
            profissional.setTelefone2(TxtTelefone2.getText());
            profissional.setFormacao(TxtFormacao.getText());
-           profissional.setArea(TxtArea.getText());
+           profissional.setIdArea(area.getId());
            profissional.setEmail(TxtEmail.getText());
            profissional.setCep(TxtCep.getText());
            profissional.setCidade(TxtCidade.getText());
@@ -768,12 +952,112 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            profissional.setRua(TxtEndereco.getText());
            profissional.setNumero(TxtNumero.getText());
            
+           try {
+               profissionaldao.Alterar(profissional);
+           } catch (SQLException ex) {
+               Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
        } 
-       
+        atualizaTabelaProfissional();
         DesativarCampos();
         LimparCampos();
         PrepararCancelarSalvar();
     }//GEN-LAST:event_BtnSalvarActionPerformed
+
+    private void TblProfissionaisMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblProfissionaisMouseClicked
+        LimparCampos();
+        profissional = new Profissional();
+       
+        profissional.setIdArea(Integer.parseInt(TblProfissionais.getValueAt(TblProfissionais.getSelectedRow(),6).toString()));
+      
+        try {
+            ComboArea.removeAllItems();
+            preencherComboSelecionado(profissional);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        TxtId.setText(TblProfissionais.getValueAt(TblProfissionais.getSelectedRow(),0).toString());
+        String identificador = TxtId.getText();
+        int id = Integer.parseInt(identificador);
+        
+        try {
+            profissional = profissionaldao.Buscar(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        TblProfissionais.getTableHeader().setReorderingAllowed(false);
+        TxtNomeCompleto.setText(profissional.getNome());
+        TxtNascimento.setText(profissional.getNascimento());
+        TxtRG.setText(profissional.getRg());
+        TxtCPF.setText(profissional.getCpf());
+        TxtTelefone1.setText(profissional.getTelefone1());
+        TxtTelefone2.setText(profissional.getTelefone2());
+        TxtFormacao.setText(profissional.getFormacao());
+        
+        TxtEmail.setText(profissional.getEmail());
+        TxtCep.setText(profissional.getCep());
+        TxtCidade.setText(profissional.getCidade());
+        TxtBairro.setText(profissional.getBairro());
+        TxtEndereco.setText(profissional.getRua());
+        TxtNumero.setText(profissional.getNumero());
+        
+        BtnAlterar.setEnabled(true);
+        BtnExcluir.setEnabled(true);
+        
+    }//GEN-LAST:event_TblProfissionaisMouseClicked
+
+    private void BtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarActionPerformed
+        AtivarCampos();
+        PrepararNovo();
+        PainelProfissionais.setSelectedIndex(0);
+    }//GEN-LAST:event_BtnAlterarActionPerformed
+
+    private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
+       if(TxtId.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+       }
+       else{
+           profissional.setId(Integer.parseInt(TxtId.getText()));
+           int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir: "+ TxtNomeCompleto.getText());
+           if(confirma == 0){
+               
+               try {
+                   profissionaldao.Excluir(profissional);
+                   JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                   LimparCampos();
+               } catch (SQLException ex) {
+                   Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                 atualizaTabelaProfissional();
+                BtnExcluir.setEnabled(false);
+                BtnAlterar.setEnabled(false);
+           }
+       }
+    }//GEN-LAST:event_BtnExcluirActionPerformed
+
+    private void TxtPesquisaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaCaretUpdate
+        listaprofissional = null;
+        if(TxtPesquisa.getText().equals("")){
+            atualizaTabelaProfissional();
+        }
+        else{
+            try {
+                listaprofissional = profissionaldao.BuscarNome(TxtPesquisa.getText());
+                if(listaprofissional == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaProfissional();
+                }else{
+                    atualizaTabelaProfissionalBusca();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+    }//GEN-LAST:event_TxtPesquisaCaretUpdate
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -784,9 +1068,9 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSair;
     private javax.swing.JButton BtnSair1;
     private javax.swing.JButton BtnSalvar;
+    private javax.swing.JComboBox<Object> ComboArea;
     private javax.swing.JTabbedPane PainelProfissionais;
     private javax.swing.JTable TblProfissionais;
-    private javax.swing.JTextField TxtArea;
     private javax.swing.JTextField TxtBairro;
     private javax.swing.JFormattedTextField TxtCPF;
     private javax.swing.JFormattedTextField TxtCep;

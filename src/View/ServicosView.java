@@ -84,6 +84,20 @@ public class ServicosView extends javax.swing.JInternalFrame {
         }
         
     }
+    public void preencherComboSelecionado(Servico area) throws SQLException{
+        int i = 0;
+        String aux;
+        for(Area a: areadao.listaTodos()){
+            ComboArea.addItem(a);
+            aux = a.getNome();
+            
+                if(a.getId()== area.getIdArea()){
+                    ComboArea.setSelectedIndex(i);              
+                }
+          
+            i++;
+        }   
+    }
     
     public void atualizaTableArea(){
         area = new Area();
@@ -136,7 +150,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
         
-        String dados[][] = new String[listaservico.size()][4];
+        String dados[][] = new String[listaservico.size()][5];
             int i = 0;
             for (Servico servico : listaservico) {
                 dados[i][0] = String.valueOf(servico.getId());
@@ -146,15 +160,16 @@ public class ServicosView extends javax.swing.JInternalFrame {
                          dados[i][2] = String.valueOf(area.getNome());
                     }}
                 dados[i][3] = servico.getTempo();
+                dados[i][4] = String.valueOf(servico.getIdArea());
                 i++;
             }
             
-            String tituloColuna[] = {"Id", "Descrição", "Área", "Tempo estimado"};
+            String tituloColuna[] = {"Id", "Descrição", "Área", "Tempo estimado","Idarea"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblServico.setModel(new DefaultTableModel(dados, tituloColuna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false
+                    false, false, false, false,false
                 };
 
                 @Override
@@ -166,7 +181,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
             TblServico.getColumnModel().getColumn(0).setMaxWidth(0);
             TblServico.getColumnModel().getColumn(0).setMinWidth(0);
             TblServico.getColumnModel().getColumn(0).setPreferredWidth(0);
-
+            TblServico.getColumnModel().getColumn(4).setMaxWidth(0);
+            TblServico.getColumnModel().getColumn(4).setMinWidth(0);
+            TblServico.getColumnModel().getColumn(4).setPreferredWidth(0);
             
             TblServico.getColumnModel().getColumn(1).setPreferredWidth(350);
             TblServico.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -263,6 +280,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         BtnNovo.setEnabled(false);
         BtnCancelar.setEnabled(true);
         BtnSalvar.setEnabled(true);
+        BtnNovaArea.setEnabled(false);
         TblServico.setEnabled(false);
         TblServico.clearSelection();
     }
@@ -285,6 +303,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         BtnExcluir.setEnabled(false);
         BtnSair.setEnabled(true);
         BtnSair1.setEnabled(true);
+        BtnNovaArea.setEnabled(true);
     }
     
     public void LimparCampo(){
@@ -870,10 +889,18 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
     private void TblServicoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TblServicoMouseClicked
         LimparCampos();
-
+        
+        servico = new Servico();
+        servico.setIdArea(Integer.parseInt(TblServico.getValueAt(TblServico.getSelectedRow(),4).toString()));
+         
+        try {
+            preencherComboSelecionado(servico);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         TxtId.setText(TblServico.getValueAt(TblServico.getSelectedRow(),0).toString());
         TxtDescricao.setText(TblServico.getValueAt(TblServico.getSelectedRow(),1).toString());
-        ComboArea.getModel().setSelectedItem(TblServico.getValueAt(TblServico.getSelectedRow(),2).toString());
         TxtTempo.setText(TblServico.getValueAt(TblServico.getSelectedRow(),3).toString());
         
         BtnAlterar.setEnabled(true);
