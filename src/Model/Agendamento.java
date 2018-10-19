@@ -18,11 +18,12 @@ public class Agendamento {
     private int Idserviço;
     private String dataAgendamento;
     private String horarioAgendamento;
+    private String horarioPrevistoTermino;
     private String dataCancelamento;
     private String dataAtendimento;
     private String horarioAtendimento;
 
-    public Agendamento(int Id, int Idcliente, int Idfuncionario, int Idprofissional, int Idserviço, String dataAgendamento, String horarioAgendamento, String dataCancelamento, String dataAtendimento, String horarioAtendimento) {
+    public Agendamento(int Id, int Idcliente, int Idfuncionario, int Idprofissional, int Idserviço, String dataAgendamento, String horarioAgendamento, String horarioPrevistoTermino, String dataCancelamento, String dataAtendimento, String horarioAtendimento) {
         this.Id = Id;
         this.Idcliente = Idcliente;
         this.Idfuncionario = Idfuncionario;
@@ -30,11 +31,24 @@ public class Agendamento {
         this.Idserviço = Idserviço;
         this.dataAgendamento = dataAgendamento;
         this.horarioAgendamento = horarioAgendamento;
+        this.horarioPrevistoTermino = horarioPrevistoTermino;
         this.dataCancelamento = dataCancelamento;
         this.dataAtendimento = dataAtendimento;
         this.horarioAtendimento = horarioAtendimento;
     }
 
+    public Agendamento(int Id, int Idcliente, int Idfuncionario, int Idprofissional, int Idserviço, String dataAgendamento, String horarioAgendamento) {
+        this.Id = Id;
+        this.Idcliente = Idcliente;
+        this.Idfuncionario = Idfuncionario;
+        this.Idprofissional = Idprofissional;
+        this.Idserviço = Idserviço;
+        this.dataAgendamento = dataAgendamento;
+        this.horarioAgendamento = horarioAgendamento;
+    }
+    
+    
+    
     public Agendamento() {
     }
 
@@ -116,6 +130,14 @@ public class Agendamento {
 
     public void setHorarioAtendimento(String horarioAtendimento) {
         this.horarioAtendimento = horarioAtendimento;
+    }
+
+    public String getHorarioPrevistoTermino() {
+        return horarioPrevistoTermino;
+    }
+
+    public void setHorarioPrevistoTermino(String horarioPrevistoTermino) {
+        this.horarioPrevistoTermino = horarioPrevistoTermino;
     }
 
    

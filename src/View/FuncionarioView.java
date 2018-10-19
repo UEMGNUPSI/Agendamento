@@ -830,7 +830,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         PainelFuncionario.addTab("    Consultar    ", jPanel2);
 
         jLabel14.setFont(new java.awt.Font("Segoe UI Semilight", 0, 24)); // NOI18N
-        jLabel14.setText("FUNCIONÀRIO");
+        jLabel14.setText("FUNCIONÁRIO");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
