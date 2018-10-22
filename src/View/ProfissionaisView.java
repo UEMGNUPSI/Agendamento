@@ -707,6 +707,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        TblProfissionais.setFont(new java.awt.Font("Segoe UI Semilight", 0, 16)); // NOI18N
         TblProfissionais.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

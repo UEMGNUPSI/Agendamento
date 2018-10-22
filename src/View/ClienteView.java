@@ -292,9 +292,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
         PainelCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         PainelCliente.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         PainelCliente.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        PainelCliente.setMaximumSize(new java.awt.Dimension(942, 626));
+        PainelCliente.setMinimumSize(new java.awt.Dimension(942, 626));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        jPanel2.setMaximumSize(new java.awt.Dimension(937, 592));
+        jPanel2.setMinimumSize(new java.awt.Dimension(937, 592));
+        jPanel2.setPreferredSize(new java.awt.Dimension(937, 592));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados Pessoais", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
@@ -433,7 +438,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TxtTelefone1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TxtTelefone2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -606,12 +611,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
                     .addComponent(BtnSalvar)
                     .addComponent(BtnNovo)
                     .addComponent(BtnSair))
-                .addGap(5, 5, 5))
+                .addGap(0, 0, 0))
         );
 
         PainelCliente.addTab("    Cadastrar    ", jPanel2);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setMaximumSize(new java.awt.Dimension(937, 592));
+        jPanel1.setMinimumSize(new java.awt.Dimension(937, 592));
 
         TblCliente.setFont(new java.awt.Font("Segoe UI Semilight", 0, 16)); // NOI18N
         TblCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -625,7 +632,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        TblCliente.setRowHeight(22);
+        TblCliente.setRowHeight(24);
         TblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblClienteMouseClicked(evt);
@@ -715,12 +722,12 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnSair1)
                     .addComponent(BtnAlterar)
                     .addComponent(BtnExcluir))
-                .addGap(15, 15, 15))
+                .addGap(19, 19, 19))
         );
 
         PainelCliente.addTab("   Consultar   ", jPanel1);
@@ -747,7 +754,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel10)
                 .addGap(18, 18, 18)
-                .addComponent(PainelCliente)
+                .addComponent(PainelCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

@@ -15,6 +15,7 @@ import Model.Area;
 import Model.Cliente;
 import Model.Profissional;
 import Model.Servico;
+import Valida.ValidaData;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -392,8 +393,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     }
     
     public void PrepararBotoesInicio(){
+        TxtPesquisaNome.requestFocus();
         BtnCancelar.setEnabled(false);
         BtnRemarcar.setEnabled(false);
+        TblAgendamento.clearSelection();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -428,6 +431,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtPesquisaCliente = new javax.swing.JTextField();
         BtnSelecionarC = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
+        BtnCancelar1 = new javax.swing.JButton();
         jDProfissional = new javax.swing.JDialog();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -437,6 +441,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtPesquisaProfissional = new javax.swing.JTextField();
         BtnSelecionarP = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
+        BtnCancelar2 = new javax.swing.JButton();
         jDServicos = new javax.swing.JDialog();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -446,6 +451,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtNomeServicos = new javax.swing.JTextField();
         BtnSelecionarS = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        BtnCancelar3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -574,7 +580,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel6)
@@ -591,13 +597,13 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(TxtProfissional, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(BtnSair1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(0, 71, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(TxtIdAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -608,13 +614,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(145, 145, 145)
-                                .addComponent(BtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1))
+                                .addComponent(BtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14)))))
-                .addContainerGap(32, Short.MAX_VALUE))
+                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(1, 1, 1)))
+                .addGap(34, 34, 34))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel10)
@@ -638,12 +643,13 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TxtServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel8)
-                    .addComponent(TxtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel8)
+                        .addComponent(TxtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -721,6 +727,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        BtnSelecionarC.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnSelecionarC.setText("SELECIONAR");
         BtnSelecionarC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -731,17 +738,27 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         jLabel12.setText("CLIENTE");
 
+        BtnCancelar1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnCancelar1.setText("CANCELAR");
+        BtnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(34, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BtnSelecionarC)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane2)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(BtnCancelar1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnSelecionarC, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -758,8 +775,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(BtnSelecionarC)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnSelecionarC)
+                    .addComponent(BtnCancelar1))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDClienteLayout = new javax.swing.GroupLayout(jDCliente.getContentPane());
@@ -823,6 +842,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        BtnSelecionarP.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnSelecionarP.setText("SELECIONAR");
         BtnSelecionarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -833,18 +853,31 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         jLabel14.setText("PROFISSIONAL");
 
+        BtnCancelar2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnCancelar2.setText("CANCELAR");
+        BtnCancelar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelar2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BtnSelecionarP)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane3)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(25, 25, 25))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnCancelar2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnSelecionarP, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel14)
@@ -860,8 +893,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(BtnSelecionarP)
-                .addGap(34, 34, 34))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnSelecionarP)
+                    .addComponent(BtnCancelar2))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jDProfissionalLayout = new javax.swing.GroupLayout(jDProfissional.getContentPane());
@@ -927,6 +962,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
+        BtnSelecionarS.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         BtnSelecionarS.setText("SELECIONAR");
         BtnSelecionarS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -937,17 +973,27 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel16.setFont(new java.awt.Font("Segoe UI Semilight", 0, 18)); // NOI18N
         jLabel16.setText("SERVIÇOS");
 
+        BtnCancelar3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnCancelar3.setText("CANCELAR");
+        BtnCancelar3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCancelar3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BtnSelecionarS)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jScrollPane4)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(25, 25, 25))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -964,7 +1010,9 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(BtnSelecionarS)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnSelecionarS)
+                    .addComponent(BtnCancelar3))
                 .addGap(34, 34, 34))
         );
 
@@ -1014,7 +1062,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel4.setText("Filtro:");
 
         ComboFiltro.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Profissional", "Serviço", "Funcionário" }));
+        ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Profissional" }));
 
         CalendarioPesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1075,6 +1123,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
+        TblAgendamento.setFont(new java.awt.Font("Segoe UI Semilight", 0, 16)); // NOI18N
         TblAgendamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1291,9 +1340,20 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtClienteActionPerformed
 
     private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalvarActionPerformed
+        String[] ValidaHora = TxtHorario.getText().split(":");
+        Boolean ValidacaoData = ValidaData.ValidarData(TxtData.getText());
         
         if(TxtIdCliente.getText().isEmpty() || TxtIdProfissional.getText().isEmpty() || TxtIdServico.getText().isEmpty()){        
-            JOptionPane.showMessageDialog(null, "Selecione todos os dados", "Erroe", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione todos os dados", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else if(Integer.parseInt(ValidaHora[0]) >= 24 || Integer.parseInt(ValidaHora[0]) < 0 || Integer.parseInt(ValidaHora[1])>= 60 || Integer.parseInt(ValidaHora[1]) < 0 ){
+            JOptionPane.showMessageDialog(null, "Horario inválido", "Erro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        else if(ValidacaoData == false){
+            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+            TxtData.requestFocus();
+            return;
         }
         else{
             agendamento = new Agendamento();
@@ -1358,7 +1418,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 
 
             try {
-                listaagendamento = agendamentodao.verificarVaga(horainicio, horafinal,TxtData.getText());
+                listaagendamento = agendamentodao.verificarVaga(TxtIdProfissional.getText(),horainicio, horafinal,TxtData.getText());
                 listaagendamento.size();
             } catch (SQLException ex) {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1386,6 +1446,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         jDProfissional.dispose();
                         jDServicos.dispose();
                         LimpaCampos();
+                        PrepararBotoesInicio();
                         
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1410,6 +1471,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         jDProfissional.dispose();
                         jDServicos.dispose();
                         LimpaCampos();
+                        PrepararBotoesInicio();
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
                     }  
@@ -1494,13 +1556,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
             else if(ComboFiltro.getSelectedItem().toString() == "Profissional"){
                 filtro = "profissionais";
-            }
-            else if(ComboFiltro.getSelectedItem().toString() == "Serviço"){
-                filtro = "serviços";
-            }
-            else if(ComboFiltro.getSelectedItem().toString() == "Funcionário"){
-                filtro = "funcionario";
-            }
+            }           
             
             try {
                 listaagendamento = agendamentodao.BuscarNome(filtro,TxtPesquisaNome.getText(),TxtPesquisaData.getText());
@@ -1559,10 +1615,25 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_CalendarioAgendaPropertyChange
 
+    private void BtnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelar1ActionPerformed
+        jDCliente.dispose();
+    }//GEN-LAST:event_BtnCancelar1ActionPerformed
+
+    private void BtnCancelar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelar2ActionPerformed
+      jDProfissional.dispose();
+    }//GEN-LAST:event_BtnCancelar2ActionPerformed
+
+    private void BtnCancelar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelar3ActionPerformed
+       jDServicos.dispose();
+    }//GEN-LAST:event_BtnCancelar3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgendar;
     private javax.swing.JButton BtnCancelar;
+    private javax.swing.JButton BtnCancelar1;
+    private javax.swing.JButton BtnCancelar2;
+    private javax.swing.JButton BtnCancelar3;
     private javax.swing.JButton BtnPesquisa;
     private javax.swing.JButton BtnRemarcar;
     private javax.swing.JButton BtnSair;

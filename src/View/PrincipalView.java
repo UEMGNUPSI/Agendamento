@@ -26,7 +26,7 @@ public class PrincipalView extends javax.swing.JFrame {
         
         addWindowListener(new WindowAdapter() {
 	public void windowClosing(WindowEvent evt) {
-		if (JOptionPane.showConfirmDialog(null,"Deseja sair")==JOptionPane.OK_OPTION){
+		if (JOptionPane.showConfirmDialog(null,"Deseja sair ?")==JOptionPane.OK_OPTION){
 			System.exit(0);
                 }
                 else{
