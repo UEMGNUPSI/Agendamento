@@ -36,7 +36,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
     FuncionarioDAO funcionariodao = new FuncionarioDAO();
     List<Funcionario> listafuncionario = new ArrayList<>();
     
-    public FuncionarioView() {
+    public FuncionarioView(Funcionario funci) {
         initComponents();
         PainelFuncionario.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
@@ -48,12 +48,19 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         BtnSalvar.setUI(new WindowsButtonUI());
         TblFuncionario.setUI(new BasicTableUI());
         
+        if(funci.getNivel() == false){
+            BtnExcluir.setVisible(false);
+            PainelNivel.setVisible(false);
+        }
+        
         TxtId.setVisible(false);
         PainelFuncionario.setSelectedIndex(1);
         PrepararCancelarSalvar();
         atualizaTabelaFuncionario();
         DesativarCampos();
     }
+
+    
     
     public void atualizaTabelaFuncionario(){
         funcionario = new Funcionario();
@@ -283,7 +290,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         jLabel19 = new javax.swing.JLabel();
         TxtSenha = new javax.swing.JPasswordField();
         TxtSenhaRepetida = new javax.swing.JPasswordField();
-        jPanel6 = new javax.swing.JPanel();
+        PainelNivel = new javax.swing.JPanel();
         RadioFunci = new javax.swing.JRadioButton();
         RadioAdm = new javax.swing.JRadioButton();
         BtnSair = new javax.swing.JButton();
@@ -625,9 +632,9 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nível", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
-        jPanel6.setPreferredSize(new java.awt.Dimension(115, 120));
+        PainelNivel.setBackground(new java.awt.Color(255, 255, 255));
+        PainelNivel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nível", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
+        PainelNivel.setPreferredSize(new java.awt.Dimension(115, 120));
 
         RadioFunci.setBackground(new java.awt.Color(255, 255, 255));
         GgrupoRadio.add(RadioFunci);
@@ -637,20 +644,20 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         GgrupoRadio.add(RadioAdm);
         RadioAdm.setText("Administrador");
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout PainelNivelLayout = new javax.swing.GroupLayout(PainelNivel);
+        PainelNivel.setLayout(PainelNivelLayout);
+        PainelNivelLayout.setHorizontalGroup(
+            PainelNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PainelNivelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PainelNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(RadioAdm)
                     .addComponent(RadioFunci))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+        PainelNivelLayout.setVerticalGroup(
+            PainelNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PainelNivelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(RadioFunci)
                 .addGap(18, 18, 18)
@@ -680,7 +687,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
+                            .addComponent(PainelNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(BtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -701,7 +708,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                 .addGap(8, 8, 8)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PainelNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1141,6 +1148,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSalvar;
     private javax.swing.ButtonGroup GgrupoRadio;
     private javax.swing.JTabbedPane PainelFuncionario;
+    private javax.swing.JPanel PainelNivel;
     private javax.swing.JRadioButton RadioAdm;
     private javax.swing.JRadioButton RadioFunci;
     private javax.swing.JTable TblFuncionario;
@@ -1184,7 +1192,6 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;

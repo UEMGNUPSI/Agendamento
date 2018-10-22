@@ -8,6 +8,7 @@ package View;
 
 import DAO.ClienteDAO;
 import Model.Cliente;
+import Model.Funcionario;
 import Valida.ValidaCPF;
 import Valida.ValidaData;
 import Valida.ValidaEmail;
@@ -43,7 +44,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
     
     ValidaCPF validacpf = new ValidaCPF();
     
-    public ClienteView(){
+    public ClienteView(Funcionario funci){
         initComponents();
         PainelCliente.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
@@ -54,6 +55,10 @@ public class ClienteView extends javax.swing.JInternalFrame {
         BtnSair.setUI(new WindowsButtonUI());
         BtnSalvar.setUI(new WindowsButtonUI());
         TblCliente.setUI(new BasicTableUI());
+        
+        if(funci.getNivel() == false){
+            BtnExcluir.setVisible(false);
+        }
         
         TxtId.setVisible(false);
         PainelCliente.setSelectedIndex(1);

@@ -37,10 +37,8 @@ public class ServicosView extends javax.swing.JInternalFrame {
     AreaDAO areadao = new AreaDAO();
     List<Area> listaarea = new ArrayList<>();
     
-    public ServicosView(){
-        initComponents();
-        
-        
+    public ServicosView(Funcionario funci){
+        initComponents();   
         jDArea.setSize(721,311);
         PainelServico.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
@@ -52,6 +50,10 @@ public class ServicosView extends javax.swing.JInternalFrame {
         BtnSalvar.setUI(new WindowsButtonUI());
         BtnNovaArea.setUI(new WindowsButtonUI());
         TblServico.setUI(new BasicTableUI());
+        
+        if(funci.getNivel() == false){
+            BtnExcluir.setVisible(false);
+        }
         
         TxtId.setVisible(false);
         PainelServico.setSelectedIndex(1);

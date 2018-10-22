@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.Funcionario;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
@@ -17,13 +18,16 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public class PrincipalView extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Principal
-     */
-    public PrincipalView() {
+    
+    Funcionario func = new Funcionario();
+    
+    public PrincipalView(Funcionario funci) {
         initComponents();
-        this.setExtendedState(MAXIMIZED_BOTH);
+        func = funci;
         
+        this.setExtendedState(MAXIMIZED_BOTH);
+        this.setVisible(true);
+             
         addWindowListener(new WindowAdapter() {
 	public void windowClosing(WindowEvent evt) {
 		if (JOptionPane.showConfirmDialog(null,"Deseja sair ?")==JOptionPane.OK_OPTION){
@@ -187,7 +191,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        FuncionarioView funcionario = new FuncionarioView();
+        FuncionarioView funcionario = new FuncionarioView(func);
         ((BasicInternalFrameUI)funcionario.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
         PainelPrincipal.add(funcionario);
@@ -213,7 +217,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        ServicosView serviços = new ServicosView();
+        ServicosView serviços = new ServicosView(func);
         ((BasicInternalFrameUI)serviços.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
         PainelPrincipal.add(serviços);
@@ -226,7 +230,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        ProfissionaisView profissionais = new ProfissionaisView();
+        ProfissionaisView profissionais = new ProfissionaisView(func);
         ((BasicInternalFrameUI)profissionais.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
         PainelPrincipal.add(profissionais);
@@ -239,7 +243,7 @@ public class PrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        ClienteView cliente = new ClienteView();
+        ClienteView cliente = new ClienteView(func);
         ((BasicInternalFrameUI)cliente.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
         PainelPrincipal.add(cliente);
@@ -254,41 +258,7 @@ public class PrincipalView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Windows".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(PrincipalView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PrincipalView().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PainelPrincipal;

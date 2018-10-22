@@ -40,7 +40,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
     AreaDAO areadao = new AreaDAO();
     List<Area> listaarea = new ArrayList<>();
     
-    public ProfissionaisView() {
+    public ProfissionaisView(Funcionario funci) {
         initComponents();
         PainelProfissionais.setUI(new  MetalTabbedPaneUI());
         BtnSair1.setUI(new WindowsButtonUI());
@@ -51,6 +51,10 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         BtnSair.setUI(new WindowsButtonUI());
         BtnSalvar.setUI(new WindowsButtonUI());
         TblProfissionais.setUI(new BasicTableUI());
+        
+        if(funci.getNivel() == false){
+            BtnExcluir.setVisible(false);
+        }
         
         TxtId.setVisible(false);
         PainelProfissionais.setSelectedIndex(1);
@@ -131,7 +135,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             TblProfissionais.getColumnModel().getColumn(6).setMinWidth(0);
             TblProfissionais.getColumnModel().getColumn(6).setPreferredWidth(0);
             
-            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(400);
+            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(350);
             TblProfissionais.getColumnModel().getColumn(2).setPreferredWidth(100);
             TblProfissionais.getColumnModel().getColumn(3).setPreferredWidth(100);
             TblProfissionais.getColumnModel().getColumn(4).setPreferredWidth(100);
@@ -184,7 +188,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             TblProfissionais.getColumnModel().getColumn(6).setMinWidth(0);
             TblProfissionais.getColumnModel().getColumn(6).setPreferredWidth(0);
             
-            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(400);
+            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(350);
             TblProfissionais.getColumnModel().getColumn(2).setPreferredWidth(100);
             TblProfissionais.getColumnModel().getColumn(3).setPreferredWidth(100);
             TblProfissionais.getColumnModel().getColumn(4).setPreferredWidth(100);

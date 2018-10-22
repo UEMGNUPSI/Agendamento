@@ -69,7 +69,13 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         BtnSelecionarP.setUI(new  WindowsButtonUI());
         BtnSelecionarS.setUI(new  WindowsButtonUI());
         BtnPesquisa.setUI(new WindowsButtonUI());
-                
+        BtnSelecionarC.setUI(new WindowsButtonUI());
+        BtnSelecionarP.setUI(new WindowsButtonUI());
+        BtnSelecionarS.setUI(new WindowsButtonUI());
+        BtnCancelar1.setUI(new WindowsButtonUI());
+        BtnCancelar2.setUI(new WindowsButtonUI());
+        BtnCancelar3.setUI(new WindowsButtonUI());
+        
         TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
         TxtIdCliente.setVisible(false);
         TxtIdProfissional.setVisible(false);
