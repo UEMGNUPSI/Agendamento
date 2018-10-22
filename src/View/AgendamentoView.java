@@ -17,6 +17,7 @@ import Model.Profissional;
 import Model.Servico;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -419,6 +418,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtIdProfissional = new javax.swing.JTextField();
         BtnSair1 = new javax.swing.JButton();
         TxtIdAgendamento = new javax.swing.JTextField();
+        CalendarioAgenda = new com.toedter.calendar.JDateChooser();
         jDCliente = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -455,6 +455,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         BtnPesquisa = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         ComboFiltro = new javax.swing.JComboBox<>();
+        CalendarioPesquisa = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         TblAgendamento = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -514,7 +515,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel8.setText("Data:");
 
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel9.setText("Horario:");
+        jLabel9.setText("Horário:");
 
         try {
             TxtHorario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
@@ -562,6 +563,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
         TxtIdAgendamento.setEnabled(false);
 
+        CalendarioAgenda.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                CalendarioAgendaPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -582,13 +589,15 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                             .addGap(24, 24, 24)
                             .addComponent(jLabel8)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(TxtProfissional, javax.swing.GroupLayout.Alignment.LEADING))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(BtnSair1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 67, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(TxtIdAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -598,12 +607,13 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                                 .addComponent(TxtIdProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(145, 145, 145)
-                                .addComponent(BtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(1, 1, 1)))
+                                .addComponent(BtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(1, 1, 1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(14, 14, 14)))))
                 .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -632,7 +642,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
                     .addComponent(TxtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CalendarioAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1005,6 +1016,25 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         ComboFiltro.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Profissional", "Serviço", "Funcionário" }));
 
+        CalendarioPesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CalendarioPesquisaMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                CalendarioPesquisaMousePressed(evt);
+            }
+        });
+        CalendarioPesquisa.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                CalendarioPesquisaPropertyChange(evt);
+            }
+        });
+        CalendarioPesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CalendarioPesquisaKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -1021,8 +1051,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(TxtPesquisaData, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(TxtPesquisaData, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(CalendarioPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(BtnPesquisa)
                 .addGap(24, 24, 24))
         );
@@ -1030,15 +1062,17 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(TxtPesquisaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(TxtPesquisaData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnPesquisa)
-                    .addComponent(jLabel4)
-                    .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(CalendarioPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(TxtPesquisaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(TxtPesquisaData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(BtnPesquisa)
+                        .addComponent(jLabel4)
+                        .addComponent(ComboFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         TblAgendamento.setModel(new javax.swing.table.DefaultTableModel(
@@ -1393,11 +1427,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
         if(TxtId.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","Erro", JOptionPane.WARNING_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Selecione um dado para cancela-lo!","Erro", JOptionPane.WARNING_MESSAGE);
        }
        else{
            cliente.setId(Integer.parseInt(TxtId.getText()));
-           int confirma = JOptionPane.showConfirmDialog(null, "Deseja excluir: "+ cliente.getNome());
+           int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar: "+ cliente.getNome());
            if(confirma == 0){
                
                try {
@@ -1486,6 +1520,45 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
          this.dispose();
     }//GEN-LAST:event_BtnSairActionPerformed
 
+    private void CalendarioPesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalendarioPesquisaMouseClicked
+       
+        
+        
+    }//GEN-LAST:event_CalendarioPesquisaMouseClicked
+
+    private void CalendarioPesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CalendarioPesquisaKeyPressed
+       TxtPesquisaNome.setText(CalendarioPesquisa.getDate().toString());
+    }//GEN-LAST:event_CalendarioPesquisaKeyPressed
+
+    private void CalendarioPesquisaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CalendarioPesquisaMousePressed
+       
+        
+    }//GEN-LAST:event_CalendarioPesquisaMousePressed
+
+    private void CalendarioPesquisaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CalendarioPesquisaPropertyChange
+        Date date = new Date();
+        if(CalendarioPesquisa.getDate() == null){
+            return;
+        }
+        else{
+            date = CalendarioPesquisa.getDate();
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            TxtPesquisaData.setText(df.format(date));
+        }
+    }//GEN-LAST:event_CalendarioPesquisaPropertyChange
+
+    private void CalendarioAgendaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CalendarioAgendaPropertyChange
+       Date date = new Date();
+        if(CalendarioAgenda.getDate() == null){
+            return;
+        }
+        else{
+            date = CalendarioAgenda.getDate();
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            TxtData.setText(df.format(date));
+        }
+    }//GEN-LAST:event_CalendarioAgendaPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgendar;
@@ -1498,6 +1571,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     private javax.swing.JButton BtnSelecionarC;
     private javax.swing.JButton BtnSelecionarP;
     private javax.swing.JButton BtnSelecionarS;
+    private com.toedter.calendar.JDateChooser CalendarioAgenda;
+    private com.toedter.calendar.JDateChooser CalendarioPesquisa;
     private javax.swing.JComboBox<String> ComboFiltro;
     private javax.swing.JTable TblAgendamento;
     private javax.swing.JTable TblCliente;

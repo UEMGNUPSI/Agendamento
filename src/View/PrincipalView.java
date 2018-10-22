@@ -5,6 +5,10 @@
  */
 package View;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -19,8 +23,22 @@ public class PrincipalView extends javax.swing.JFrame {
     public PrincipalView() {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
-    }
+        
+        addWindowListener(new WindowAdapter() {
+	public void windowClosing(WindowEvent evt) {
+		if (JOptionPane.showConfirmDialog(null,"Deseja sair")==JOptionPane.OK_OPTION){
+			System.exit(0);
+                }
+                else{
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    return;
+                }
+}
+});
 
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,17 +127,17 @@ public class PrincipalView extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
+                .addContainerGap(64, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel5)
-                .addGap(70, 70, 70)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel4)
                 .addGap(70, 70, 70)
                 .addComponent(jLabel2)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
             .addComponent(jSeparator1)
         );
         jPanel1Layout.setVerticalGroup(
@@ -168,21 +186,18 @@ public class PrincipalView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       ClienteView cliente = new ClienteView();
-       ((BasicInternalFrameUI)cliente.getUI()).setNorthPane(null);
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        FuncionarioView funcionario = new FuncionarioView();
+        ((BasicInternalFrameUI)funcionario.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
-        PainelPrincipal.add(cliente);
+        PainelPrincipal.add(funcionario);
         PainelPrincipal.updateUI();
-             //  função pra centralizar o jInternalFrame abaixo
-        cliente.setLocation(
-            PainelPrincipal.getWidth()/2 - cliente.getWidth()/2,
-            PainelPrincipal.getHeight()/2- cliente.getHeight()/2);
-        cliente.setVisible(true); 
-        
-        //BtnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("../IMG/menuClienteOn.png")));
-                
-    }//GEN-LAST:event_jLabel1MouseClicked
+        //  função pra centralizar o jInternalFrame abaixo
+        funcionario.setLocation(
+            PainelPrincipal.getWidth()/2 - funcionario.getWidth()/2,
+            PainelPrincipal.getHeight()/2- funcionario.getHeight()/2);
+        funcionario.setVisible(true);
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         AgendamentoView agendamento = new AgendamentoView();
@@ -190,25 +205,12 @@ public class PrincipalView extends javax.swing.JFrame {
         PainelPrincipal.removeAll();
         PainelPrincipal.add(agendamento);
         PainelPrincipal.updateUI();
-             //  função pra centralizar o jInternalFrame abaixo
+        //  função pra centralizar o jInternalFrame abaixo
         agendamento.setLocation(
             PainelPrincipal.getWidth()/2 - agendamento.getWidth()/2,
             PainelPrincipal.getHeight()/2- agendamento.getHeight()/2);
-        agendamento.setVisible(true); 
+        agendamento.setVisible(true);
     }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        ProfissionaisView profissionais = new ProfissionaisView();
-        ((BasicInternalFrameUI)profissionais.getUI()).setNorthPane(null);
-        PainelPrincipal.removeAll();
-        PainelPrincipal.add(profissionais);
-        PainelPrincipal.updateUI();
-             //  função pra centralizar o jInternalFrame abaixo
-        profissionais.setLocation(
-            PainelPrincipal.getWidth()/2 - profissionais.getWidth()/2,
-            PainelPrincipal.getHeight()/2- profissionais.getHeight()/2);
-        profissionais.setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
         ServicosView serviços = new ServicosView();
@@ -216,25 +218,41 @@ public class PrincipalView extends javax.swing.JFrame {
         PainelPrincipal.removeAll();
         PainelPrincipal.add(serviços);
         PainelPrincipal.updateUI();
-             //  função pra centralizar o jInternalFrame abaixo
+        //  função pra centralizar o jInternalFrame abaixo
         serviços.setLocation(
             PainelPrincipal.getWidth()/2 - serviços.getWidth()/2,
             PainelPrincipal.getHeight()/2- serviços.getHeight()/2);
         serviços.setVisible(true);
     }//GEN-LAST:event_jLabel4MouseClicked
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-       FuncionarioView funcionario = new FuncionarioView();
-        ((BasicInternalFrameUI)funcionario.getUI()).setNorthPane(null);
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        ProfissionaisView profissionais = new ProfissionaisView();
+        ((BasicInternalFrameUI)profissionais.getUI()).setNorthPane(null);
         PainelPrincipal.removeAll();
-        PainelPrincipal.add(funcionario);
+        PainelPrincipal.add(profissionais);
         PainelPrincipal.updateUI();
-             //  função pra centralizar o jInternalFrame abaixo
-        funcionario.setLocation(
-            PainelPrincipal.getWidth()/2 - funcionario.getWidth()/2,
-            PainelPrincipal.getHeight()/2- funcionario.getHeight()/2);
-        funcionario.setVisible(true);
-    }//GEN-LAST:event_jLabel2MouseClicked
+        //  função pra centralizar o jInternalFrame abaixo
+        profissionais.setLocation(
+            PainelPrincipal.getWidth()/2 - profissionais.getWidth()/2,
+            PainelPrincipal.getHeight()/2- profissionais.getHeight()/2);
+        profissionais.setVisible(true);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        ClienteView cliente = new ClienteView();
+        ((BasicInternalFrameUI)cliente.getUI()).setNorthPane(null);
+        PainelPrincipal.removeAll();
+        PainelPrincipal.add(cliente);
+        PainelPrincipal.updateUI();
+        //  função pra centralizar o jInternalFrame abaixo
+        cliente.setLocation(
+            PainelPrincipal.getWidth()/2 - cliente.getWidth()/2,
+            PainelPrincipal.getHeight()/2- cliente.getHeight()/2);
+        cliente.setVisible(true);
+
+        //BtnCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("../IMG/menuClienteOn.png")));
+
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
