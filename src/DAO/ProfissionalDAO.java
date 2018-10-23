@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import CONTROLLER.conexao;
 import Model.Funcionario;
 import Model.Profissional;
 import java.sql.PreparedStatement;

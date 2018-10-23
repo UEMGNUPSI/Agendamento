@@ -695,6 +695,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             }
         ));
         TblServico.setRowHeight(24);
+        TblServico.getTableHeader().setReorderingAllowed(false);
         TblServico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblServicoMouseClicked(evt);
@@ -850,7 +851,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             try {
                 listaservico = servicodao.BuscarDescricao(TxtPesquisa.getText());
                 if(listaservico == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum Serviço encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaServico();
                 }else{
                     atualizaTabelaServicoBusca();

@@ -211,11 +211,107 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             TblCliente.setRowHeight(35);
             TblCliente.updateUI();
     }
+    public void atualizaTabelaClienteBusca(){
+        cliente = new Cliente();
+        
+        String dados[][] = new String[listacliente.size()][5];
+            int i = 0;
+            for (Cliente cliente : listacliente) {
+                dados[i][0] = String.valueOf(cliente.getId());
+                dados[i][1] = cliente.getNome();
+                dados[i][2] = cliente.getRg();
+                dados[i][3] = cliente.getCpf();
+                dados[i][4] = cliente.getTelefone1();
+           
+                i++;
+            }
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Fone Principal"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblCliente.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblCliente.getColumnModel().getColumn(0).setMinWidth(0);
+            TblCliente.getColumnModel().getColumn(0).setPreferredWidth(0);
+            
+            TblCliente.getColumnModel().getColumn(1).setPreferredWidth(350);
+            TblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            TblCliente.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TblCliente.getColumnModel().getColumn(4).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblCliente.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+            TblCliente.setRowHeight(35);
+            TblCliente.updateUI();
+    }
     
     public void atualizaTabelaServico(){
         servico = new Servico();
         try {
             listaservico = servicodao.listaTodos();
+            listaarea    = areadao.listaTodos();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaservico.size()][5];
+            int i = 0;
+            for (Servico servico : listaservico) {
+                dados[i][0] = String.valueOf(servico.getId());
+                dados[i][1] = servico.getDescricao();              
+                for(Area area: listaarea){    
+                    if(servico.getIdArea() == area.getId()){
+                         dados[i][2] = String.valueOf(area.getNome());
+                    }}
+                dados[i][3] = servico.getTempo();
+                dados[i][4] = String.valueOf(servico.getIdArea());
+                i++;
+            }
+            
+            String tituloColuna[] = {"Id", "Descrição", "Área", "Tempo estimado","Idarea"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblServico.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false,false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblServico.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblServico.getColumnModel().getColumn(0).setMinWidth(0);
+            TblServico.getColumnModel().getColumn(0).setPreferredWidth(0);
+            TblServico.getColumnModel().getColumn(4).setMaxWidth(0);
+            TblServico.getColumnModel().getColumn(4).setMinWidth(0);
+            TblServico.getColumnModel().getColumn(4).setPreferredWidth(0);
+            
+            TblServico.getColumnModel().getColumn(1).setPreferredWidth(350);
+            TblServico.getColumnModel().getColumn(2).setPreferredWidth(150);
+            TblServico.getColumnModel().getColumn(3).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblServico.getColumnModel().getColumn(3).setCellRenderer(centralizado);
+            TblServico.setRowHeight(35);
+            TblServico.updateUI();
+    }
+    public void atualizaTabelaServicoBusca(){
+        servico = new Servico();
+        try { 
             listaarea    = areadao.listaTodos();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
@@ -274,6 +370,50 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
+        
+        String dados[][] = new String[listaprofissional.size()][5];
+            int i = 0;
+            for (Profissional profissional : listaprofissional) {
+                dados[i][0] = String.valueOf(profissional.getId());
+                dados[i][1] = profissional.getNome();
+                dados[i][2] = profissional.getRg();
+                dados[i][3] = profissional.getCpf();
+                dados[i][4] = profissional.getTelefone1();
+            
+           
+                i++;
+            }
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Fone Principal"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            TblProfissionais.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            TblProfissionais.getColumnModel().getColumn(0).setMaxWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setMinWidth(0);
+            TblProfissionais.getColumnModel().getColumn(0).setPreferredWidth(0);
+            
+            TblProfissionais.getColumnModel().getColumn(1).setPreferredWidth(350);
+            TblProfissionais.getColumnModel().getColumn(2).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(3).setPreferredWidth(100);
+            TblProfissionais.getColumnModel().getColumn(4).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            TblProfissionais.getColumnModel().getColumn(4).setCellRenderer(centralizado);
+            TblProfissionais.setRowHeight(35);
+            TblProfissionais.updateUI();
+    }
+    public void atualizaTabelaProfissionalBusca(){
+        profissional = new Profissional();
         
         String dados[][] = new String[listaprofissional.size()][5];
             int i = 0;
@@ -396,6 +536,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtHorario.setText("");
         TxtData.setText("");
         TxtId.setText("");
+        TxtPesquisaNome.setText("");
+        TxtPesquisaData.setText("");
     }
     
     public void PrepararBotoesInicio(){
@@ -454,7 +596,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TblServico = new javax.swing.JTable();
         jPanel9 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
-        TxtNomeServicos = new javax.swing.JTextField();
+        TxtPesquisaServicos = new javax.swing.JTextField();
         BtnSelecionarS = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         BtnCancelar3 = new javax.swing.JButton();
@@ -700,6 +842,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         ));
         TblCliente.setRowHeight(24);
+        TblCliente.getTableHeader().setReorderingAllowed(false);
         TblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblClienteMouseClicked(evt);
@@ -711,6 +854,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pesquisa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
 
         jLabel11.setText("Nome:");
+
+        TxtPesquisaCliente.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TxtPesquisaClienteCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -815,6 +964,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         ));
         TblProfissionais.setRowHeight(24);
+        TblProfissionais.getTableHeader().setReorderingAllowed(false);
         TblProfissionais.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblProfissionaisMouseClicked(evt);
@@ -826,6 +976,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pesquisa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
 
         jLabel13.setText("Nome:");
+
+        TxtPesquisaProfissional.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TxtPesquisaProfissionalCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -935,6 +1091,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         ));
         TblServico.setRowHeight(24);
+        TblServico.getTableHeader().setReorderingAllowed(false);
         TblServico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblServicoMouseClicked(evt);
@@ -945,7 +1102,15 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jPanel9.setBackground(new java.awt.Color(250, 250, 250));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pesquisa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
 
-        jLabel15.setText("Nome:");
+        jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel15.setText("Descrição:");
+
+        TxtPesquisaServicos.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtPesquisaServicos.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                TxtPesquisaServicosCaretUpdate(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -954,9 +1119,9 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jLabel15)
-                .addGap(18, 18, 18)
-                .addComponent(TxtNomeServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGap(54, 54, 54)
+                .addComponent(TxtPesquisaServicos, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -964,7 +1129,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(TxtNomeServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtPesquisaServicos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -993,14 +1158,15 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(428, 428, 428)
                         .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(25, 25, 25))
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel16)
@@ -1142,6 +1308,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         ));
         TblAgendamento.setRowHeight(24);
+        TblAgendamento.getTableHeader().setReorderingAllowed(false);
         TblAgendamento.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblAgendamentoMouseClicked(evt);
@@ -1254,6 +1421,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
     private void BtnAgendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAgendarActionPerformed
        LimpaCampos();
+       PrepararBotoesInicio();
        jDAgendar.setVisible(true);
        jDAgendar.setLocationRelativeTo(null);
       
@@ -1430,7 +1598,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if(listaagendamento.isEmpty() || listaagendamento.size()<=1){
+            if(listaagendamento.isEmpty() ){
                 if(TxtIdAgendamento.getText().isEmpty()){ 
                     //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
                     agendamento.setIdcliente(cliente.getId());
@@ -1481,6 +1649,50 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
                     }  
+                }
+            }
+            else if( listaagendamento.size()<=1){
+                for(Agendamento agendamento : listaagendamento){
+                    String[] horaAgendamento      = agendamento.getHorarioAgendamento().split(":");
+                    String[] horaTermino          = agendamento.getHorarioPrevistoTermino().split(":");
+                    String[] horaAgendamentoAtual = TxtHorario.getText().split(":");
+                    
+                    int HoraAgendamento = Integer.parseInt(horaAgendamento[0]) + Integer.parseInt(horaAgendamento[1]); 
+                    int HoraTermino     = Integer.parseInt(horaTermino[0]) + Integer.parseInt(horaTermino[1]); 
+                    int HoraAgendamentoAtual = Integer.parseInt(horaAgendamentoAtual[0]) + Integer.parseInt(horaAgendamentoAtual[1]); 
+                    
+                    if(HoraAgendamentoAtual >= HoraAgendamento && HoraAgendamentoAtual < HoraTermino){
+                        JOptionPane.showMessageDialog(null, "Houve um choque de horario!", "Erro", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    else{
+                        //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
+                        agendamento.setIdcliente(cliente.getId());
+                        agendamento.setIdprofissional(profissional.getId());
+                        agendamento.setIdserviço(servico.getId());
+                        agendamento.setDataAgendamento(TxtData.getText());
+                        agendamento.setHorarioAgendamento(TxtHorario.getText());
+                        agendamento.setHorarioPrevistoTermino(horafinal1);
+                        agendamento.setDataAtendimento(dataAtual);
+                        agendamento.setHorarioAtendimento(horaAtual);
+
+
+                        try {
+                            agendamentodao.Salvar(agendamento);
+                            JOptionPane.showMessageDialog(null, "Agendado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            atualizaTabelaAgendamento();
+                            jDAgendar.dispose();
+                            jDCliente.dispose();
+                            jDProfissional.dispose();
+                            jDServicos.dispose();
+                            LimpaCampos();
+                            PrepararBotoesInicio();
+                            return;
+
+                        } catch (SQLException ex) {
+                            Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+                        }  
+                        }
                 }
             }
             else if(!listaagendamento.isEmpty()){
@@ -1633,6 +1845,66 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
        jDServicos.dispose();
     }//GEN-LAST:event_BtnCancelar3ActionPerformed
 
+    private void TxtPesquisaClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaClienteCaretUpdate
+        listacliente = null;
+        if(TxtPesquisaCliente.getText().equals("")){
+            atualizaTabelaCliente();
+        }
+        else{
+            try {
+                listacliente = clientedao.BuscarNome(TxtPesquisaCliente.getText());
+                if(listacliente == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCliente();
+                }else{
+                    atualizaTabelaClienteBusca();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_TxtPesquisaClienteCaretUpdate
+
+    private void TxtPesquisaProfissionalCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaProfissionalCaretUpdate
+       listaprofissional = null;
+        if(TxtPesquisaProfissional.getText().equals("")){
+            atualizaTabelaProfissional();
+        }
+        else{
+            try {
+                listaprofissional = profissionaldao.BuscarNome(TxtPesquisaProfissional.getText());
+                if(listaprofissional == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Profissional encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaProfissional();
+                }else{
+                    atualizaTabelaProfissionalBusca();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_TxtPesquisaProfissionalCaretUpdate
+
+    private void TxtPesquisaServicosCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_TxtPesquisaServicosCaretUpdate
+       listaservico = null;
+        if(TxtPesquisaServicos.getText().equals("")){
+            atualizaTabelaServico();
+        }
+        else{
+            try {
+                listaservico = servicodao.BuscarDescricao(TxtPesquisaServicos.getText());
+                if(listaservico == null){
+                    JOptionPane.showMessageDialog(null, "Nenhum Serviço encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaServico();
+                }else{
+                    atualizaTabelaServicoBusca();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_TxtPesquisaServicosCaretUpdate
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgendar;
@@ -1663,11 +1935,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtIdCliente;
     private javax.swing.JTextField TxtIdProfissional;
     private javax.swing.JTextField TxtIdServico;
-    private javax.swing.JTextField TxtNomeServicos;
     private javax.swing.JTextField TxtPesquisaCliente;
     private javax.swing.JFormattedTextField TxtPesquisaData;
     private javax.swing.JTextField TxtPesquisaNome;
     private javax.swing.JTextField TxtPesquisaProfissional;
+    private javax.swing.JTextField TxtPesquisaServicos;
     private javax.swing.JTextField TxtProfissional;
     private javax.swing.JTextField TxtServico;
     private javax.swing.JDialog jDAgendar;

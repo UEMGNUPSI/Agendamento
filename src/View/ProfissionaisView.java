@@ -724,6 +724,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             }
         ));
         TblProfissionais.setRowHeight(24);
+        TblProfissionais.getTableHeader().setReorderingAllowed(false);
         TblProfissionais.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblProfissionaisMouseClicked(evt);
@@ -962,6 +963,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            
            try {
                profissionaldao.Alterar(profissional);
+               JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
            } catch (SQLException ex) {
                Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -1055,7 +1057,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             try {
                 listaprofissional = profissionaldao.BuscarNome(TxtPesquisa.getText());
                 if(listaprofissional == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum Profissional encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaProfissional();
                 }else{
                     atualizaTabelaProfissionalBusca();

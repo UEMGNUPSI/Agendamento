@@ -740,6 +740,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         TblFuncionario.setMaximumSize(new java.awt.Dimension(2147483647, 88));
         TblFuncionario.setMinimumSize(new java.awt.Dimension(60, 88));
         TblFuncionario.setRowHeight(24);
+        TblFuncionario.getTableHeader().setReorderingAllowed(false);
         TblFuncionario.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblFuncionarioMouseClicked(evt);

@@ -120,7 +120,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             TblCliente.updateUI();
     }
     
-    public void atualizaTableClienteBusca(){
+    public void atualizaTabelaClienteBusca(){
         cliente = new Cliente();
         
         String dados[][] = new String[listacliente.size()][6];
@@ -638,6 +638,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
         ));
         TblCliente.setRowHeight(24);
+        TblCliente.getTableHeader().setReorderingAllowed(false);
         TblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TblClienteMouseClicked(evt);
@@ -985,7 +986,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaCliente();
                 }else{
-                    atualizaTableClienteBusca();
+                    atualizaTabelaClienteBusca();
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);

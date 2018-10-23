@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import CONTROLLER.conexao;
 import Model.Area;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
