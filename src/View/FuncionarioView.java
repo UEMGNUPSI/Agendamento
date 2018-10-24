@@ -7,6 +7,7 @@ package View;
 
 import DAO.FuncionarioDAO;
 import Model.Funcionario;
+import Valida.LimitaDigitos;
 import Valida.ValidaCPF;
 import Valida.ValidaData;
 import Valida.ValidaEmail;
@@ -48,6 +49,15 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         BtnSalvar.setUI(new WindowsButtonUI());
         TblFuncionario.setUI(new BasicTableUI());
         
+        TxtEndereco.setDocument(new LimitaDigitos(100));
+        TxtEmail.setDocument(new LimitaDigitos(100));
+        TxtNomeCompleto.setDocument(new LimitaDigitos(100));
+        TxtRG.setDocument(new LimitaDigitos(45));
+        TxtBairro.setDocument(new LimitaDigitos(100));
+        TxtCidade.setDocument(new LimitaDigitos(50));
+        TxtLogin.setDocument(new LimitaDigitos(45));
+        TxtSenha.setDocument(new LimitaDigitos(45));
+        
         if(funci.getNivel() == false){
             BtnExcluir.setVisible(false);
             PainelNivel.setVisible(false);
@@ -82,7 +92,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblFuncionario.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -129,7 +139,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblFuncionario.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -343,10 +353,10 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
         jLabel4.setText("Data de nascimento:");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel5.setText("Fone Principal:");
+        jLabel5.setText("Contato Principal:");
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel6.setText("Fone:");
+        jLabel6.setText("Contato:");
 
         try {
             javax.swing.text.MaskFormatter mascTelefone = new javax.swing.text.MaskFormatter("(**)* ####-####");
@@ -906,7 +916,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                
                try {
                    funcionariodao.Excluir(funcionario);
-                   JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                   JOptionPane.showMessageDialog(null, "Funcionário excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                    LimparCampos();
                } catch (SQLException ex) {
                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1019,7 +1029,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                 
                 try {
                     funcionariodao.Salvar(funcionario);
-                    JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                    JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
                 } catch (SQLException ex) {
                     Logger.getLogger(FuncionarioView.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1044,7 +1054,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
                 
                 try {
                     funcionariodao.Alterar(funcionario);
-                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                    JOptionPane.showMessageDialog(null, "Funcionário alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
                 } catch (SQLException ex) {
                     Logger.getLogger(FuncionarioView.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1121,7 +1131,7 @@ public class FuncionarioView extends javax.swing.JInternalFrame {
             try {
                 listafuncionario = funcionariodao.BuscarNome(TxtPesquisa.getText());
                 if(listafuncionario == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum funcionário encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaFuncionario();
                 }else{
                     atualizaTabelaFuncionarioBusca();

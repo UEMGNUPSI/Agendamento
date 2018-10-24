@@ -13,6 +13,7 @@ import DAO.ServicoDAO;
 import Model.Agendamento;
 import Model.Area;
 import Model.Cliente;
+import Model.Funcionario;
 import Model.Profissional;
 import Model.Servico;
 import Valida.ValidaData;
@@ -56,11 +57,15 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     ProfissionalDAO profissionaldao = new ProfissionalDAO();
     List<Profissional> listaprofissional = new ArrayList<>();
     
-    public AgendamentoView() {
+    Funcionario funcionario = new Funcionario();
+    
+    public AgendamentoView(Funcionario funci) {
         initComponents();
+        funcionario = funci;
         
         BtnAgendar.setUI(new  WindowsButtonUI());
         BtnCancelar.setUI(new  WindowsButtonUI());
+        BtnAlterar.setUI(new  WindowsButtonUI());
         BtnRemarcar.setUI(new  WindowsButtonUI());
         BtnSair.setUI(new  WindowsButtonUI());
         BtnSair1.setUI(new  WindowsButtonUI());
@@ -82,6 +87,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtIdServico.setVisible(false);
         TxtIdAgendamento.setVisible(false);
         TxtId.setVisible(false);
+        TxtRemarcar.setVisible(false);
         
         jDAgendar.setSize(511,394);
         jDProfissional.setSize(704, 512);
@@ -127,7 +133,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 }
 
                 dados[i][4] = String.valueOf(agendamento.getDataAgendamento());
-                dados[i][5] = String.valueOf(agendamento.getHorarioAgendamento());
+                dados[i][5] = String.valueOf(agendamento.getHorarioAgendamento() +" - "+ agendamento.getHorarioPrevistoTermino());
            
                 i++;
             }
@@ -489,7 +495,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 }
 
                 dados[i][4] = String.valueOf(agendamento.getDataAgendamento());
-                dados[i][5] = String.valueOf(agendamento.getHorarioAgendamento());
+                dados[i][5] = String.valueOf(agendamento.getHorarioAgendamento()  +" - "+ agendamento.getHorarioPrevistoTermino());
            
                 i++;
             }
@@ -537,12 +543,19 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtData.setText("");
         TxtId.setText("");
         TxtPesquisaNome.setText("");
-        TxtPesquisaData.setText("");
+        
+    }
+    
+    public void LimpaPesquisa(){
+        TxtPesquisaCliente.setText("");
+        TxtPesquisaProfissional.setText("");
+        TxtPesquisaServicos.setText("");
     }
     
     public void PrepararBotoesInicio(){
         TxtPesquisaNome.requestFocus();
         BtnCancelar.setEnabled(false);
+        BtnAlterar.setEnabled(false);
         BtnRemarcar.setEnabled(false);
         TblAgendamento.clearSelection();
     }
@@ -570,6 +583,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         BtnSair1 = new javax.swing.JButton();
         TxtIdAgendamento = new javax.swing.JTextField();
         CalendarioAgenda = new com.toedter.calendar.JDateChooser();
+        TxtRemarcar = new javax.swing.JTextField();
         jDCliente = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -614,10 +628,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TblAgendamento = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         BtnAgendar = new javax.swing.JButton();
-        BtnRemarcar = new javax.swing.JButton();
+        BtnAlterar = new javax.swing.JButton();
         BtnCancelar = new javax.swing.JButton();
         BtnSair = new javax.swing.JButton();
         TxtId = new javax.swing.JTextField();
+        BtnRemarcar = new javax.swing.JButton();
 
         jDAgendar.setMinimumSize(new java.awt.Dimension(511, 394));
         jDAgendar.setUndecorated(true);
@@ -630,7 +645,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel5.setText("Cliente:");
 
-        TxtCliente.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        TxtCliente.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         TxtCliente.setEnabled(false);
         TxtCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -649,7 +664,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel7.setText("Serviço:");
 
-        TxtProfissional.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtProfissional.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         TxtProfissional.setEnabled(false);
         TxtProfissional.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -657,7 +672,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         });
 
-        TxtServico.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtServico.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         TxtServico.setEnabled(false);
         TxtServico.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -723,6 +738,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         });
 
+        TxtRemarcar.setEnabled(false);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -764,8 +781,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                                 .addGap(145, 145, 145)
                                 .addComponent(BtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TxtRemarcar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(1, 1, 1)))
                 .addGap(34, 34, 34))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -803,7 +822,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     .addComponent(TxtIdServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtIdProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TxtIdAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtIdAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TxtRemarcar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnSalvar)
@@ -1235,6 +1255,31 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
         ComboFiltro.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         ComboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Profissional" }));
+        ComboFiltro.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboFiltroItemStateChanged(evt);
+            }
+        });
+        ComboFiltro.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+                ComboFiltroPopupMenuCanceled(evt);
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+                ComboFiltroPopupMenuWillBecomeVisible(evt);
+            }
+        });
+        ComboFiltro.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ComboFiltroMouseClicked(evt);
+            }
+        });
+        ComboFiltro.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                ComboFiltroPropertyChange(evt);
+            }
+        });
 
         CalendarioPesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1327,16 +1372,16 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         });
 
-        BtnRemarcar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        BtnRemarcar.setText("REMARCAR");
-        BtnRemarcar.addActionListener(new java.awt.event.ActionListener() {
+        BtnAlterar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnAlterar.setText("ALTERAR");
+        BtnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnRemarcarActionPerformed(evt);
+                BtnAlterarActionPerformed(evt);
             }
         });
 
         BtnCancelar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        BtnCancelar.setText("CANCELAR");
+        BtnCancelar.setText("REMOVER");
         BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnCancelarActionPerformed(evt);
@@ -1354,6 +1399,14 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtId.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
         TxtId.setEnabled(false);
 
+        BtnRemarcar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        BtnRemarcar.setText("REMARCAR");
+        BtnRemarcar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRemarcarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1367,10 +1420,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                                 .addComponent(BtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(52, 52, 52)
                                 .addComponent(BtnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(BtnRemarcar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BtnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(BtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1393,10 +1448,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnAgendar)
-                    .addComponent(BtnRemarcar)
+                    .addComponent(BtnAlterar)
                     .addComponent(BtnCancelar)
                     .addComponent(BtnSair)
-                    .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnRemarcar))
                 .addGap(39, 39, 39))
         );
 
@@ -1503,6 +1559,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
        jDProfissional.dispose();
        jDServicos.dispose();
        LimpaCampos();
+       LimpaPesquisa();
     }//GEN-LAST:event_BtnSair1ActionPerformed
 
     private void TxtIdServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtIdServicoActionPerformed
@@ -1609,7 +1666,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     agendamento.setHorarioPrevistoTermino(horafinal1);
                     agendamento.setDataAtendimento(dataAtual);
                     agendamento.setHorarioAtendimento(horaAtual);
-
+                    agendamento.setIdfuncionario(funcionario.getId());
 
                     try {
                         agendamentodao.Salvar(agendamento);
@@ -1620,7 +1677,10 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         jDProfissional.dispose();
                         jDServicos.dispose();
                         LimpaCampos();
+                        LimpaPesquisa();
                         PrepararBotoesInicio();
+                        TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                        atualizaTabelaAgendamento();
                         
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1635,17 +1695,30 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     agendamento.setDataAgendamento(TxtData.getText());
                     agendamento.setHorarioAgendamento(TxtHorario.getText());
                     agendamento.setHorarioPrevistoTermino(horafinal1);
-                     
+                    agendamento.setIdfuncionario(funcionario.getId());
+                    agendamento.setDataAtendimento(dataAtual);
+                    agendamento.setHorarioAtendimento(horaAtual);
+                    
                     try {
-                        agendamentodao.Remarcar(agendamento);
-                        JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                        if(TxtRemarcar.getText().isEmpty()){
+                        agendamentodao.Alterar(agendamento);
+                        JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                        }
+                        else{
+                            agendamentodao.Salvar(agendamento);
+                            JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                        
                         atualizaTabelaAgendamento();
                         jDAgendar.dispose();
                         jDCliente.dispose();
                         jDProfissional.dispose();
                         jDServicos.dispose();
                         LimpaCampos();
+                        LimpaPesquisa();
                         PrepararBotoesInicio();
+                        TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                        atualizaTabelaAgendamento();
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
                     }  
@@ -1666,33 +1739,76 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         return;
                     }
                     else{
-                        //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
-                        agendamento.setIdcliente(cliente.getId());
-                        agendamento.setIdprofissional(profissional.getId());
-                        agendamento.setIdserviço(servico.getId());
-                        agendamento.setDataAgendamento(TxtData.getText());
-                        agendamento.setHorarioAgendamento(TxtHorario.getText());
-                        agendamento.setHorarioPrevistoTermino(horafinal1);
-                        agendamento.setDataAtendimento(dataAtual);
-                        agendamento.setHorarioAtendimento(horaAtual);
+                        if(TxtIdAgendamento.getText().isEmpty()){ 
+                            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
+                            agendamento.setIdcliente(cliente.getId());
+                            agendamento.setIdprofissional(profissional.getId());
+                            agendamento.setIdserviço(servico.getId());
+                            agendamento.setDataAgendamento(TxtData.getText());
+                            agendamento.setHorarioAgendamento(TxtHorario.getText());
+                            agendamento.setHorarioPrevistoTermino(horafinal1);
+                            agendamento.setDataAtendimento(dataAtual);
+                            agendamento.setHorarioAtendimento(horaAtual);
+                            agendamento.setIdfuncionario(funcionario.getId());
 
+                            try {
+                                agendamentodao.Salvar(agendamento);
+                                JOptionPane.showMessageDialog(null, "Agendado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                       
+                                atualizaTabelaAgendamento();
+                                jDAgendar.dispose();
+                                jDCliente.dispose();
+                                jDProfissional.dispose();
+                                jDServicos.dispose();
+                                LimpaCampos();
+                                LimpaPesquisa();
+                                PrepararBotoesInicio();
+                                TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                                atualizaTabelaAgendamento();
+                                return;
 
-                        try {
-                            agendamentodao.Salvar(agendamento);
-                            JOptionPane.showMessageDialog(null, "Agendado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                            atualizaTabelaAgendamento();
-                            jDAgendar.dispose();
-                            jDCliente.dispose();
-                            jDProfissional.dispose();
-                            jDServicos.dispose();
-                            LimpaCampos();
-                            PrepararBotoesInicio();
-                            return;
-
-                        } catch (SQLException ex) {
-                            Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
-                        }  
+                            } catch (SQLException ex) {
+                                Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+                            } 
                         }
+                        else{
+                            //Salva tudo digitado no campo de texto para o objeto e faz update no banco de dados
+                            agendamento.setId(Integer.parseInt(TxtIdAgendamento.getText()));
+                            agendamento.setIdcliente(cliente.getId());
+                            agendamento.setIdprofissional(profissional.getId());
+                            agendamento.setIdserviço(servico.getId());
+                            agendamento.setDataAgendamento(TxtData.getText());
+                            agendamento.setHorarioAgendamento(TxtHorario.getText());
+                            agendamento.setHorarioPrevistoTermino(horafinal1);
+                            agendamento.setIdfuncionario(funcionario.getId());
+                            agendamento.setDataAtendimento(dataAtual);
+                            agendamento.setHorarioAtendimento(horaAtual);
+
+                            try {
+                                if(TxtRemarcar.getText().isEmpty()){
+                                    agendamentodao.Alterar(agendamento);
+                                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                                }
+                                else{
+                                    agendamentodao.Salvar(agendamento);
+                                    JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                }
+                                atualizaTabelaAgendamento();
+                                jDAgendar.dispose();
+                                jDCliente.dispose();
+                                jDProfissional.dispose();
+                                jDServicos.dispose();
+                                LimpaCampos();
+                                LimpaPesquisa();
+                                PrepararBotoesInicio();
+                                TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+                                atualizaTabelaAgendamento();
+                        
+                            } catch (SQLException ex) {
+                                Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+                            } 
+                        }
+                    }
                 }
             }
             else if(!listaagendamento.isEmpty()){
@@ -1752,21 +1868,18 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtHorario.setText(agendamento.getHorarioAgendamento());
         TxtData.setText(agendamento.getDataAgendamento());
         
-        BtnRemarcar.setEnabled(true);
+        BtnAlterar.setEnabled(true);
         BtnCancelar.setEnabled(true);
+        BtnRemarcar.setEnabled(true);
         
     }//GEN-LAST:event_TblAgendamentoMouseClicked
 
-    private void BtnRemarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRemarcarActionPerformed
+    private void BtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarActionPerformed
         jDAgendar.setVisible(true);
         jDAgendar.setLocationRelativeTo(null);
-    }//GEN-LAST:event_BtnRemarcarActionPerformed
+    }//GEN-LAST:event_BtnAlterarActionPerformed
 
     private void BtnPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPesquisaActionPerformed
-        if(TxtPesquisaData.getText().equals("  /  /    ")){
-            JOptionPane.showMessageDialog(null, "Obrigatorio ter uma data", "Erro", JOptionPane.INFORMATION_MESSAGE);
-        }
-        else{
             String filtro = null;
 
             if(ComboFiltro.getSelectedItem().toString() == "Cliente"){
@@ -1777,17 +1890,28 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }           
             
             try {
-                listaagendamento = agendamentodao.BuscarNome(filtro,TxtPesquisaNome.getText(),TxtPesquisaData.getText());
-                if(listaagendamento == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum "+ComboFiltro.getSelectedItem().toString()+" encontrado!","", JOptionPane.WARNING_MESSAGE);
-                    atualizaTabelaAgendamento();
-                }else{
-                    atualizaTabelaAgendamentoBusca();
+                if(TxtPesquisaData.getText().equals("  /  /    ")){
+                    listaagendamento = agendamentodao.BuscarNome(filtro,TxtPesquisaNome.getText());
+                    if(listaagendamento == null){
+                        JOptionPane.showMessageDialog(null, "Nenhum "+ComboFiltro.getSelectedItem().toString()+" encontrado!","", JOptionPane.WARNING_MESSAGE);
+                        atualizaTabelaAgendamento();
+                    }else{
+                        atualizaTabelaAgendamentoBusca();
+                    }
+                }
+                else{
+                    listaagendamento = agendamentodao.BuscarNomeDia(filtro,TxtPesquisaNome.getText(),TxtPesquisaData.getText());
+                    if(listaagendamento == null){
+                        JOptionPane.showMessageDialog(null, "Nenhum "+ComboFiltro.getSelectedItem().toString()+" encontrado!","", JOptionPane.WARNING_MESSAGE);
+                        atualizaTabelaAgendamento();
+                    }else{
+                        atualizaTabelaAgendamentoBusca();
+                    }
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        
     }//GEN-LAST:event_BtnPesquisaActionPerformed
 
     private void BtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSairActionPerformed
@@ -1905,9 +2029,48 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_TxtPesquisaServicosCaretUpdate
 
+    private void ComboFiltroPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_ComboFiltroPropertyChange
+        
+    }//GEN-LAST:event_ComboFiltroPropertyChange
+
+    private void ComboFiltroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ComboFiltroMouseClicked
+    
+    }//GEN-LAST:event_ComboFiltroMouseClicked
+
+    private void ComboFiltroPopupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_ComboFiltroPopupMenuWillBecomeVisible
+         
+    }//GEN-LAST:event_ComboFiltroPopupMenuWillBecomeVisible
+
+    private void ComboFiltroPopupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_ComboFiltroPopupMenuCanceled
+        
+    }//GEN-LAST:event_ComboFiltroPopupMenuCanceled
+
+    private void ComboFiltroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboFiltroItemStateChanged
+       if(ComboFiltro.getSelectedIndex() == 1){
+            try {
+                listaprofissional = profissionaldao.listaTodos();
+            } catch (SQLException ex) {
+                Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if(listaprofissional.size() == 1){
+                for (Profissional profissional : listaprofissional) {
+                    TxtPesquisaNome.setText(profissional.getNome());
+                }
+            }
+        }
+    }//GEN-LAST:event_ComboFiltroItemStateChanged
+
+    private void BtnRemarcarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRemarcarActionPerformed
+        jDAgendar.setVisible(true);
+        jDAgendar.setLocationRelativeTo(null);    
+        TxtRemarcar.setText("1");
+    }//GEN-LAST:event_BtnRemarcarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAgendar;
+    private javax.swing.JButton BtnAlterar;
     private javax.swing.JButton BtnCancelar;
     private javax.swing.JButton BtnCancelar1;
     private javax.swing.JButton BtnCancelar2;
@@ -1941,6 +2104,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtPesquisaProfissional;
     private javax.swing.JTextField TxtPesquisaServicos;
     private javax.swing.JTextField TxtProfissional;
+    private javax.swing.JTextField TxtRemarcar;
     private javax.swing.JTextField TxtServico;
     private javax.swing.JDialog jDAgendar;
     private javax.swing.JDialog jDCliente;

@@ -23,14 +23,14 @@ public class AgendamentoDAO {
     public void Salvar(Agendamento agendamento) throws SQLException{
         PreparedStatement pst;
         String sql;
-        int num = 1;
+        
         sql = "INSERT INTO agendamento SET idfuncionario = ?, idcliente = ?, idprofissionais = ?, idserviços = ?,"
                 + " dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ), horarioAgendamento = STR_TO_DATE( ?, \'%H:%i' ) ,  "
                 + " dataAtendimento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) , horarioAtendimento = STR_TO_DATE( ?, \'%H:%i' ),  "
                 + "horarioPrevistoTermino = STR_TO_DATE(?,\'%H:%i' )";
         pst = conexao.getInstance().prepareStatement(sql);
         
-        pst.setInt(1, num);
+        pst.setInt(1, agendamento.getIdfuncionario());
         pst.setInt(2, agendamento.getIdcliente());
         pst.setInt(3, agendamento.getIdprofissional());
         pst.setInt(4, agendamento.getIdserviço());
@@ -44,16 +44,16 @@ public class AgendamentoDAO {
         
     }
     
-    public void Remarcar(Agendamento agendamento) throws SQLException{
+    public void Alterar(Agendamento agendamento) throws SQLException{
         PreparedStatement pst;
         String sql;
-        int id = 1;
+        
         sql = "UPDATE agendamento SET idcliente = ?, idfuncionario = ?, idprofissionais = ?, idserviços = ?, dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ),"
                 + " horarioAgendamento = STR_TO_DATE( ?, \'%H:%i' ), horarioPrevistoTermino = STR_TO_DATE(?,\'%H:%i' ) WHERE idagendamento = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setInt(1, agendamento.getIdcliente());
-        pst.setInt(2, id);
+        pst.setInt(2, agendamento.getIdfuncionario());
         pst.setInt(3, agendamento.getIdprofissional());
         pst.setInt(4, agendamento.getIdserviço());
         pst.setString(5, agendamento.getDataAgendamento());
@@ -176,7 +176,7 @@ public class AgendamentoDAO {
         return listaagendamento;
     }
     
-   public List<Agendamento> BuscarNome(String filtro, String nome, String data) throws SQLException{
+   public List<Agendamento> BuscarNomeDia(String filtro, String nome, String data) throws SQLException{
         PreparedStatement pst;
         String sql; 
         String agendamento = "agendamento.id"+filtro;
@@ -193,6 +193,43 @@ public class AgendamentoDAO {
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, name);
         pst.setString(2, data);
+        
+        ResultSet rs = pst.executeQuery();
+        
+        while(rs.next()){
+            listaagendamento.add(new Agendamento(
+                            rs.getInt("idagendamento"),
+                            rs.getInt("idcliente"),
+                            rs.getInt("idfuncionario"),
+                            rs.getInt("idprofissionais"),
+                            rs.getInt("idserviços"),
+                            rs.getString("dataAgendamento"),
+                            rs.getString("horarioAgendamento"),
+                            rs.getString("horarioPrevistoTermino"),
+                            rs.getString("dataCancelamento"),
+                            rs.getString("dataAtendimento"),
+                            rs.getString("horarioAtendimento")
+                        ));
+        }
+        return listaagendamento;
+    } 
+   
+   public List<Agendamento> BuscarNome(String filtro, String nome) throws SQLException{
+        PreparedStatement pst;
+        String sql; 
+        String agendamento = "agendamento.id"+filtro;
+        String segundaTabela = filtro+".id"+filtro;
+        String name = "%"+nome+"%";
+        List<Agendamento> listaagendamento = new ArrayList<>();
+
+        sql = "SELECT idagendamento, agendamento.idcliente, agendamento.idfuncionario, agendamento.idprofissionais, agendamento.idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
+                + "TIME_FORMAT(horarioAgendamento, '%H:%i') AS horarioAgendamento, TIME_FORMAT(horarioPrevistoTermino, '%H:%i') AS horarioPrevistoTermino, "
+                + "DATE_FORMAT( dataCancelamento, \"%d/%m/%Y\" ) AS dataCancelamento, DATE_FORMAT( dataAtendimento, \"%d/%m/%Y\" ) AS dataAtendimento, "
+                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento INNER JOIN "+filtro+" ON "+agendamento+" = "+segundaTabela+" WHERE nome LIKE ? ORDER BY horarioAgendamento";
+        
+        //sql = "SELECT idagendamento,agendamento.idcliente, idfuncionario, idprofissionais, idserviços, dataAgendamento,horarioAgendamento,horarioPrevistoTermino, dataCancelamento, dataAtendimento,horarioAtendimento FROM agendamento INNER JOIN "+filtro+" ON agendamento.idcliente = cliente.idcliente WHERE nome LIKE ?";
+        pst = conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, name);
         
         ResultSet rs = pst.executeQuery();
         

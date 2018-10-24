@@ -9,6 +9,7 @@ package View;
 import DAO.ClienteDAO;
 import Model.Cliente;
 import Model.Funcionario;
+import Valida.LimitaDigitos;
 import Valida.ValidaCPF;
 import Valida.ValidaData;
 import Valida.ValidaEmail;
@@ -56,6 +57,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
         BtnSalvar.setUI(new WindowsButtonUI());
         TblCliente.setUI(new BasicTableUI());
         
+        TxtAdicional.setDocument(new LimitaDigitos(100));
+        TxtEndereco.setDocument(new LimitaDigitos(100));
+        TxtEmail.setDocument(new LimitaDigitos(100));
+        TxtNomeCompleto.setDocument(new LimitaDigitos(100));
+        TxtRG.setDocument(new LimitaDigitos(45));
+        TxtBairro.setDocument(new LimitaDigitos(100));
+        TxtCidade.setDocument(new LimitaDigitos(50));
+        
         if(funci.getNivel() == false){
             BtnExcluir.setVisible(false);
         }
@@ -89,7 +98,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -135,7 +144,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -326,7 +335,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel4.setText("Data de nascimento:");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel5.setText("Fone Principal:");
+        jLabel5.setText("Contato principal:");
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel6.setText("Fone:");

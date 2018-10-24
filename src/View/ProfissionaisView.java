@@ -10,6 +10,7 @@ import DAO.ProfissionalDAO;
 import Model.Area;
 import Model.Funcionario;
 import Model.Profissional;
+import Valida.LimitaDigitos;
 import Valida.ValidaCPF;
 import Valida.ValidaData;
 import Valida.ValidaEmail;
@@ -51,6 +52,14 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         BtnSair.setUI(new WindowsButtonUI());
         BtnSalvar.setUI(new WindowsButtonUI());
         TblProfissionais.setUI(new BasicTableUI());
+        
+        TxtEndereco.setDocument(new LimitaDigitos(100));
+        TxtEmail.setDocument(new LimitaDigitos(100));
+        TxtNomeCompleto.setDocument(new LimitaDigitos(100));
+        TxtRG.setDocument(new LimitaDigitos(45));
+        TxtBairro.setDocument(new LimitaDigitos(100));
+        TxtCidade.setDocument(new LimitaDigitos(50));
+        TxtFormacao.setDocument(new LimitaDigitos(75));
         
         if(funci.getNivel() == false){
             BtnExcluir.setVisible(false);
@@ -114,7 +123,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal","Area"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato","Area"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblProfissionais.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -167,7 +176,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            
                 i++;
             }
-            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Fone Principal","Area"};
+            String tituloColuna[] = {"Id", "Nome", "RG", "CPF","Nascimento","Contato","Area"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblProfissionais.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -358,10 +367,10 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         jLabel13.setText("Data de nascimento:");
 
         jLabel14.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel14.setText("Fone Principal:");
+        jLabel14.setText("Contato Principal:");
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel15.setText("Fone:");
+        jLabel15.setText("Contato:");
 
         try {
             javax.swing.text.MaskFormatter mascTelefone = new javax.swing.text.MaskFormatter("(**)* ####-####");
@@ -935,7 +944,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            
             try {
                 profissionaldao.Salvar(profissional);
-                JOptionPane.showMessageDialog(null, "Salvado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Profissional cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -963,7 +972,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
            
            try {
                profissionaldao.Alterar(profissional);
-               JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+               JOptionPane.showMessageDialog(null, "Profissional alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
            } catch (SQLException ex) {
                Logger.getLogger(ProfissionaisView.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -1036,7 +1045,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
                
                try {
                    profissionaldao.Excluir(profissional);
-                   JOptionPane.showMessageDialog(null, "Excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                   JOptionPane.showMessageDialog(null, "Profissional excluido com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                    LimparCampos();
                } catch (SQLException ex) {
                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1057,7 +1066,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
             try {
                 listaprofissional = profissionaldao.BuscarNome(TxtPesquisa.getText());
                 if(listaprofissional == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Profissional encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum profissional encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaProfissional();
                 }else{
                     atualizaTabelaProfissionalBusca();
