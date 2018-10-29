@@ -67,6 +67,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Agendamento");
 
         PainelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
 

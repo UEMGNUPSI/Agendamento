@@ -1613,6 +1613,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             String[] horarioAtendimento = TxtHorario.getText().split(":");
             String[] horarioServico = servico.getTempo().split(":");
             
+            
             int HorarioAtendimento = Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioAtendimento[1]);
             
             int hora ;
@@ -1631,6 +1632,20 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 }
                 String horafinal = Integer.toString(hora)+":"+Integer.toString(minutos);
                 
+                //Verifica se o horario presvisto de termino entra entre o horario de funcionamento
+                
+                if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 1900){
+                    int confirma = JOptionPane.showConfirmDialog(null, "Horário excede o horário de funcionamento, Deseja agendar ?", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                    if(confirma == 1){
+                        return;  
+                    }            
+                }
+                if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 2359){
+                    JOptionPane.showMessageDialog(null, "Horário ultrapassa as 24h do dia. Por favor verificar o horário a agendar!", "Error", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                    
+                    
                 hora  = Integer.parseInt(horarioAtendimento[0]) ;
                 minutos  = Integer.parseInt(horarioAtendimento[1]);
                 if(minutos==60){
@@ -1647,9 +1662,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
                 String horafinal1 = Integer.toString(hora)+":"+Integer.toString(minutos);
                 
-
+            
+                
             try {
-                listaagendamento = agendamentodao.verificarVaga(TxtIdProfissional.getText(),horainicio, horafinal,TxtData.getText());
+                //listaagendamento = agendamentodao.verificarVaga(TxtIdProfissional.getText(),horainicio, horafinal,TxtData.getText());
+                listaagendamento = agendamentodao.listaTodos(TxtData.getText());
                 listaagendamento.size();
             } catch (SQLException ex) {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1679,7 +1696,6 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         LimpaCampos();
                         LimpaPesquisa();
                         PrepararBotoesInicio();
-                        TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                         atualizaTabelaAgendamento();
                         
                     } catch (SQLException ex) {
@@ -1707,6 +1723,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         else{
                             agendamentodao.Salvar(agendamento);
                             JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            TxtRemarcar.setText("");
                         }
                         
                         atualizaTabelaAgendamento();
@@ -1717,28 +1734,33 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                         LimpaCampos();
                         LimpaPesquisa();
                         PrepararBotoesInicio();
-                        TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                         atualizaTabelaAgendamento();
                     } catch (SQLException ex) {
                         Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
                     }  
                 }
             }
-            else if( listaagendamento.size()<=1){
+            else if(!listaagendamento.isEmpty()){
                 for(Agendamento agendamento : listaagendamento){
                     String[] horaAgendamento      = agendamento.getHorarioAgendamento().split(":");
                     String[] horaTermino          = agendamento.getHorarioPrevistoTermino().split(":");
                     String[] horaAgendamentoAtual = TxtHorario.getText().split(":");
                     
-                    int HoraAgendamento = Integer.parseInt(horaAgendamento[0]) + Integer.parseInt(horaAgendamento[1]); 
-                    int HoraTermino     = Integer.parseInt(horaTermino[0]) + Integer.parseInt(horaTermino[1]); 
-                    int HoraAgendamentoAtual = Integer.parseInt(horaAgendamentoAtual[0]) + Integer.parseInt(horaAgendamentoAtual[1]); 
+                    String HoraAg = horaAgendamento[0] + horaAgendamento[1];
+                    String HoraTe = horaTermino[0] + horaTermino[1];
+                    String HoraAgeAtua   = horaAgendamentoAtual[0] + horaAgendamentoAtual[1];
                     
-                    if(HoraAgendamentoAtual >= HoraAgendamento && HoraAgendamentoAtual < HoraTermino){
+                    int HoraAgendamento = Integer.parseInt(HoraAg); 
+                    int HoraTermino     = Integer.parseInt(HoraTe); 
+                    int HoraAgendamentoAtual = Integer.parseInt(HoraAgeAtua); 
+                    //JOptionPane.showMessageDialog(null, "HoraAtual: "+HoraAgendamentoAtual+" >= HoraAgendamento: "+HoraAgendamento+" && HoraAtual: "+HoraAgendamentoAtual+" < HoraTermino: "+HoraTermino);//" || HoraAtual:"+HoraAgendamentoAtual+" < HoraTermino: "+HoraTermino
+                    if(HoraAgendamentoAtual >= HoraAgendamento && HoraAgendamentoAtual < HoraTermino ){  
+                        //|| (HoraAgendamentoAtual < HoraTermino)
                         JOptionPane.showMessageDialog(null, "Houve um choque de horario!", "Erro", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
-                    else{
+                }
+                
                         if(TxtIdAgendamento.getText().isEmpty()){ 
                             //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
                             agendamento.setIdcliente(cliente.getId());
@@ -1753,7 +1775,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 
                             try {
                                 agendamentodao.Salvar(agendamento);
-                                JOptionPane.showMessageDialog(null, "Agendado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(null, "Agendado com sucesso1!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                        
                                 atualizaTabelaAgendamento();
                                 jDAgendar.dispose();
@@ -1763,7 +1785,6 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                                 LimpaCampos();
                                 LimpaPesquisa();
                                 PrepararBotoesInicio();
-                                TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                                 atualizaTabelaAgendamento();
                                 return;
 
@@ -1787,11 +1808,12 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                             try {
                                 if(TxtRemarcar.getText().isEmpty()){
                                     agendamentodao.Alterar(agendamento);
-                                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!1", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
                                 }
                                 else{
                                     agendamentodao.Salvar(agendamento);
                                     JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                                    TxtRemarcar.setText("");
                                 }
                                 atualizaTabelaAgendamento();
                                 jDAgendar.dispose();
@@ -1801,15 +1823,15 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                                 LimpaCampos();
                                 LimpaPesquisa();
                                 PrepararBotoesInicio();
-                                TxtPesquisaData.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
                                 atualizaTabelaAgendamento();
+                                return;
                         
                             } catch (SQLException ex) {
                                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
                             } 
                         }
-                    }
-                }
+                    
+                
             }
             else if(!listaagendamento.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Houve um choque de horario!", "Erro", JOptionPane.WARNING_MESSAGE);
