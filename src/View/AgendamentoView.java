@@ -1622,11 +1622,11 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
                 minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) - 1;
 
-                if(minutos==60){
+                if(minutos>=60){
                     hora = hora+1;
-                    minutos = 0;
+                    minutos = minutos - 60;
                 }
-                if(minutos==-1){
+                if(minutos<=-1){
                     minutos = 59;
                     hora = hora-01;
                 }
@@ -1648,9 +1648,9 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     
                 hora  = Integer.parseInt(horarioAtendimento[0]) ;
                 minutos  = Integer.parseInt(horarioAtendimento[1]);
-                if(minutos==60){
+                if(minutos>=60){
                     hora = hora+1;
-                    minutos = 0;
+                    minutos = minutos - 60;
                 }
   
                 String horainicio = Integer.toString(hora)+":"+Integer.toString(minutos);
@@ -1659,14 +1659,17 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                 
                 hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
                 minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) ;
-
+                if(minutos>=60){
+                    hora = hora+1;
+                    minutos = minutos - 60 ;
+                }
                 String horafinal1 = Integer.toString(hora)+":"+Integer.toString(minutos);
                 
             
                 
             try {
                 //listaagendamento = agendamentodao.verificarVaga(TxtIdProfissional.getText(),horainicio, horafinal,TxtData.getText());
-                listaagendamento = agendamentodao.listaTodos(TxtData.getText());
+                listaagendamento = agendamentodao.verificaVaga(TxtData.getText(),TxtIdProfissional.getText());
                 listaagendamento.size();
             } catch (SQLException ex) {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1761,77 +1764,75 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     }
                 }
                 
-                        if(TxtIdAgendamento.getText().isEmpty()){ 
-                            //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
-                            agendamento.setIdcliente(cliente.getId());
-                            agendamento.setIdprofissional(profissional.getId());
-                            agendamento.setIdserviço(servico.getId());
-                            agendamento.setDataAgendamento(TxtData.getText());
-                            agendamento.setHorarioAgendamento(TxtHorario.getText());
-                            agendamento.setHorarioPrevistoTermino(horafinal1);
-                            agendamento.setDataAtendimento(dataAtual);
-                            agendamento.setHorarioAtendimento(horaAtual);
-                            agendamento.setIdfuncionario(funcionario.getId());
+                if(TxtIdAgendamento.getText().isEmpty()){ 
+                    //Salva tudo digitado no campo de texto para o objeto e salva no banco de dados 
+                    agendamento.setIdcliente(cliente.getId());
+                    agendamento.setIdprofissional(profissional.getId());
+                    agendamento.setIdserviço(servico.getId());
+                    agendamento.setDataAgendamento(TxtData.getText());
+                    agendamento.setHorarioAgendamento(TxtHorario.getText());
+                    agendamento.setHorarioPrevistoTermino(horafinal1);
+                    agendamento.setDataAtendimento(dataAtual);
+                    agendamento.setHorarioAtendimento(horaAtual);
+                    agendamento.setIdfuncionario(funcionario.getId());
 
-                            try {
-                                agendamentodao.Salvar(agendamento);
-                                JOptionPane.showMessageDialog(null, "Agendado com sucesso1!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                       
-                                atualizaTabelaAgendamento();
-                                jDAgendar.dispose();
-                                jDCliente.dispose();
-                                jDProfissional.dispose();
-                                jDServicos.dispose();
-                                LimpaCampos();
-                                LimpaPesquisa();
-                                PrepararBotoesInicio();
-                                atualizaTabelaAgendamento();
-                                return;
+                    try {
+                        agendamentodao.Salvar(agendamento);
+                        JOptionPane.showMessageDialog(null, "Agendado com sucesso1!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-                            } catch (SQLException ex) {
-                                Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
-                            } 
+                        atualizaTabelaAgendamento();
+                        jDAgendar.dispose();
+                        jDCliente.dispose();
+                        jDProfissional.dispose();
+                        jDServicos.dispose();
+                        LimpaCampos();
+                        LimpaPesquisa();
+                        PrepararBotoesInicio();
+                        atualizaTabelaAgendamento();
+                        return;
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+                    } 
+                }
+                else{
+                    //Salva tudo digitado no campo de texto para o objeto e faz update no banco de dados
+                    agendamento.setId(Integer.parseInt(TxtIdAgendamento.getText()));
+                    agendamento.setIdcliente(cliente.getId());
+                    agendamento.setIdprofissional(profissional.getId());
+                    agendamento.setIdserviço(servico.getId());
+                    agendamento.setDataAgendamento(TxtData.getText());
+                    agendamento.setHorarioAgendamento(TxtHorario.getText());
+                    agendamento.setHorarioPrevistoTermino(horafinal1);
+                    agendamento.setIdfuncionario(funcionario.getId());
+                    agendamento.setDataAtendimento(dataAtual);
+                    agendamento.setHorarioAtendimento(horaAtual);
+
+                    try{
+                        if(TxtRemarcar.getText().isEmpty()){
+                            agendamentodao.Alterar(agendamento);
+                            JOptionPane.showMessageDialog(null, "Alterado com sucesso!1", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
                         }
                         else{
-                            //Salva tudo digitado no campo de texto para o objeto e faz update no banco de dados
-                            agendamento.setId(Integer.parseInt(TxtIdAgendamento.getText()));
-                            agendamento.setIdcliente(cliente.getId());
-                            agendamento.setIdprofissional(profissional.getId());
-                            agendamento.setIdserviço(servico.getId());
-                            agendamento.setDataAgendamento(TxtData.getText());
-                            agendamento.setHorarioAgendamento(TxtHorario.getText());
-                            agendamento.setHorarioPrevistoTermino(horafinal1);
-                            agendamento.setIdfuncionario(funcionario.getId());
-                            agendamento.setDataAtendimento(dataAtual);
-                            agendamento.setHorarioAtendimento(horaAtual);
-
-                            try {
-                                if(TxtRemarcar.getText().isEmpty()){
-                                    agendamentodao.Alterar(agendamento);
-                                    JOptionPane.showMessageDialog(null, "Alterado com sucesso!1", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
-                                }
-                                else{
-                                    agendamentodao.Salvar(agendamento);
-                                    JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                                    TxtRemarcar.setText("");
-                                }
-                                atualizaTabelaAgendamento();
-                                jDAgendar.dispose();
-                                jDCliente.dispose();
-                                jDProfissional.dispose();
-                                jDServicos.dispose();
-                                LimpaCampos();
-                                LimpaPesquisa();
-                                PrepararBotoesInicio();
-                                atualizaTabelaAgendamento();
-                                return;
-                        
-                            } catch (SQLException ex) {
-                                Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
-                            } 
+                            agendamentodao.Salvar(agendamento);
+                            JOptionPane.showMessageDialog(null, "Remarcado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            TxtRemarcar.setText("");
                         }
-                    
-                
+                        atualizaTabelaAgendamento();
+                        jDAgendar.dispose();
+                        jDCliente.dispose();
+                        jDProfissional.dispose();
+                        jDServicos.dispose();
+                        LimpaCampos();
+                        LimpaPesquisa();
+                        PrepararBotoesInicio();
+                        atualizaTabelaAgendamento();
+                        return;
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
+                    } 
+                }
             }
             else if(!listaagendamento.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Houve um choque de horario!", "Erro", JOptionPane.WARNING_MESSAGE);

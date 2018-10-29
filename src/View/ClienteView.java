@@ -31,8 +31,6 @@ import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-
-
 /**
  *
  * @author Dc
@@ -57,7 +55,6 @@ public class ClienteView extends javax.swing.JInternalFrame {
         BtnSalvar.setUI(new WindowsButtonUI());
         TblCliente.setUI(new BasicTableUI());
         
-        TxtAdicional.setDocument(new LimitaDigitos(100));
         TxtEndereco.setDocument(new LimitaDigitos(100));
         TxtEmail.setDocument(new LimitaDigitos(100));
         TxtNomeCompleto.setDocument(new LimitaDigitos(100));
@@ -458,6 +455,12 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados Complementais", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI Semilight", 0, 14))); // NOI18N
 
+        TxtAdicional.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        TxtAdicional.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                TxtAdicionalKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(TxtAdicional);
 
         jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -816,7 +819,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnNovoActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro ? Isso ira apagar todos os dados ja inseridos. ");
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro ? Isso irá apagar todos os dados ja inseridos. ");
         if(confirma == 0){
             LimparCampos();
             DesativarCampos();
@@ -1002,6 +1005,16 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_TxtPesquisaCaretUpdate
+
+    private void TxtAdicionalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TxtAdicionalKeyTyped
+        //Limita Digitos
+        int numero = 200;
+        if(TxtAdicional.getText().length()>=numero){
+          evt.consume();
+         
+        }
+        
+    }//GEN-LAST:event_TxtAdicionalKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

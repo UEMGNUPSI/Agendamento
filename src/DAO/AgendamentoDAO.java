@@ -112,9 +112,44 @@ public class AgendamentoDAO {
         sql = "SELECT idagendamento,idcliente, idfuncionario, idprofissionais, idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
                 + "TIME_FORMAT(horarioAgendamento, '%H:%i') AS horarioAgendamento, TIME_FORMAT(horarioPrevistoTermino, '%H:%i') AS horarioPrevistoTermino, "
                 + "DATE_FORMAT( dataCancelamento, \"%d/%m/%Y\" ) AS dataCancelamento, DATE_FORMAT( dataAtendimento, \"%d/%m/%Y\" ) AS dataAtendimento, "
-                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento WHERE dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) order by horarioAgendamento  ";
+                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento WHERE dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) "
+                + "order by horarioAgendamento  ";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, data);
+
+        ResultSet rs = pst.executeQuery();
+        
+        while(rs.next()){
+            listaagendamento.add(new Agendamento(
+                            rs.getInt("idagendamento"),
+                            rs.getInt("idcliente"),
+                            rs.getInt("idfuncionario"),
+                            rs.getInt("idprofissionais"),
+                            rs.getInt("idserviços"),
+                            rs.getString("dataAgendamento"),
+                            rs.getString("horarioAgendamento"),
+                            rs.getString("horarioPrevistoTermino"),
+                            rs.getString("dataCancelamento"),
+                            rs.getString("dataAtendimento"),
+                            rs.getString("horarioAtendimento")
+                        ));
+        }
+        return listaagendamento;
+    }
+    
+    public List<Agendamento> verificaVaga(String data,String id) throws SQLException{
+        PreparedStatement pst;
+        String sql;   
+        List<Agendamento> listaagendamento = new ArrayList<>();
+        
+        sql = "SELECT idagendamento,idcliente, idfuncionario, idprofissionais, idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
+                + "TIME_FORMAT(horarioAgendamento, '%H:%i') AS horarioAgendamento, TIME_FORMAT(horarioPrevistoTermino, '%H:%i') AS horarioPrevistoTermino, "
+                + "DATE_FORMAT( dataCancelamento, \"%d/%m/%Y\" ) AS dataCancelamento, DATE_FORMAT( dataAtendimento, \"%d/%m/%Y\" ) AS dataAtendimento, "
+                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento WHERE dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) "
+                + "AND idprofissionais = ? order by horarioAgendamento  ";
+        pst = conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, data);
+        pst.setString(2, id);
         ResultSet rs = pst.executeQuery();
         
         while(rs.next()){
@@ -225,7 +260,7 @@ public class AgendamentoDAO {
         sql = "SELECT idagendamento, agendamento.idcliente, agendamento.idfuncionario, agendamento.idprofissionais, agendamento.idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
                 + "TIME_FORMAT(horarioAgendamento, '%H:%i') AS horarioAgendamento, TIME_FORMAT(horarioPrevistoTermino, '%H:%i') AS horarioPrevistoTermino, "
                 + "DATE_FORMAT( dataCancelamento, \"%d/%m/%Y\" ) AS dataCancelamento, DATE_FORMAT( dataAtendimento, \"%d/%m/%Y\" ) AS dataAtendimento, "
-                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento INNER JOIN "+filtro+" ON "+agendamento+" = "+segundaTabela+" WHERE nome LIKE ? ORDER BY horarioAgendamento";
+                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento INNER JOIN "+filtro+" ON "+agendamento+" = "+segundaTabela+" WHERE nome LIKE ? ORDER BY dataAgendamento desc";
         
         //sql = "SELECT idagendamento,agendamento.idcliente, idfuncionario, idprofissionais, idserviços, dataAgendamento,horarioAgendamento,horarioPrevistoTermino, dataCancelamento, dataAtendimento,horarioAtendimento FROM agendamento INNER JOIN "+filtro+" ON agendamento.idcliente = cliente.idcliente WHERE nome LIKE ?";
         pst = conexao.getInstance().prepareStatement(sql);

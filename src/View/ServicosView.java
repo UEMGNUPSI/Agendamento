@@ -972,7 +972,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnSalvarActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro ? Isso ira apagar todos os dados ja inseridos. ");
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro ? Isso irá apagar todos os dados ja inseridos. ");
         if(confirma == 0){
             LimparCampos();
             DesativarCampos();
