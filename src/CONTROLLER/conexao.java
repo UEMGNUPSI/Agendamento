@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class conexao {
     
-   private static conexao conexao = null;
+    private static conexao conexao = null;
     private static Connection connection;
     private String usuario;
     private String senha;

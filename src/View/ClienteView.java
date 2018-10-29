@@ -335,7 +335,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel5.setText("Contato principal:");
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jLabel6.setText("Fone:");
+        jLabel6.setText("Contato:");
 
         try {
             javax.swing.text.MaskFormatter mascTelefone = new javax.swing.text.MaskFormatter("(**)* ####-####");
