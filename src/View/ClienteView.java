@@ -15,17 +15,12 @@ import Valida.ValidaData;
 import Valida.ValidaEmail;
 import com.sun.java.swing.plaf.windows.WindowsButtonUI;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicTableUI;
 import javax.swing.plaf.metal.MetalTabbedPaneUI;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -787,7 +782,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
        if(TxtId.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","Aviso", JOptionPane.INFORMATION_MESSAGE);
        }
        else{
            cliente.setId(Integer.parseInt(TxtId.getText()));
@@ -841,27 +836,27 @@ public class ClienteView extends javax.swing.JInternalFrame {
        
        // Verificações de campos obrigatorios
         if(TxtNomeCompleto.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtNomeCompleto.requestFocus();
             return;
         }
         if(TxtNascimento.getText().equals("  /  /    ")){
-            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtNascimento.requestFocus();
             return;
         }
         if(TxtRG.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtRG.requestFocus();
             return;
         }
         if(TxtCPF.getText().equals("   .   .   -  ")){
-            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtCPF.requestFocus();
             return;
         }
         if(TxtTelefone1.getText().equals("(  )     -    ")){
-            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtTelefone1.requestFocus();
             return;
         }
@@ -869,14 +864,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
         //Validação do CPF
         Boolean ValidacaoCPF = ValidaCPF.isCPF(TxtCPF.getText());
         if(ValidacaoCPF == false){
-            JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "CPF invalido !","Erro", JOptionPane.WARNING_MESSAGE);
             TxtCPF.requestFocus();
             return;
         }
         //Iniciação da validão de data verdadeira;
         Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
         if(ValidacaoData == false){
-            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!","Erro",JOptionPane.WARNING_MESSAGE);
             TxtNascimento.requestFocus();
             return;
         }
@@ -885,7 +880,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
              //Validao Email
             Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
             if(ValidaoEmail == false){
-               JOptionPane.showMessageDialog(null, "Email invalido!");
+               JOptionPane.showMessageDialog(null, "Email invalido!","Erro",JOptionPane.WARNING_MESSAGE);
                TxtEmail.requestFocus();
                return;
             }
@@ -909,7 +904,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             
             try {      
                 clientedao.Salvar(cliente);
-                JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
@@ -940,7 +935,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             
             try {
                 clientedao.Alterar(cliente);
-                JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
+                JOptionPane.showMessageDialog(null, "Cliente alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE); 
             } catch (SQLException ex) {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -995,7 +990,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             try {
                 listacliente = clientedao.BuscarNome(TxtPesquisa.getText());
                 if(listacliente == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum cliente encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaCliente();
                 }else{
                     atualizaTabelaClienteBusca();

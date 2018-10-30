@@ -873,27 +873,27 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         
        // Verificações de campos obrigatorios
         if(TxtNomeCompleto.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo Nome Completo obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtNomeCompleto.requestFocus();
             return;
         }
         if(TxtNascimento.getText().equals("  /  /    ")){
-            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo Data de nascimento obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtNascimento.requestFocus();
             return;
         }
         if(TxtRG.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo RG obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtRG.requestFocus();
             return;
         }
         if(TxtCPF.getText().equals("   .   .   -  ")){
-            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campo CPF obrigatorio !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtCPF.requestFocus();
             return;
         }
         if(TxtTelefone1.getText().equals("(  )     -    ")){
-            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Necessário um telefone de contato !","Aviso", JOptionPane.INFORMATION_MESSAGE);
             TxtTelefone1.requestFocus();
             return;
         }
@@ -901,14 +901,14 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
         //Validação do CPF
         Boolean ValidacaoCPF = ValidaCPF.isCPF(TxtCPF.getText());
         if(ValidacaoCPF == false){
-            JOptionPane.showMessageDialog(null, "CPF invalido !","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "CPF invalido !","Erro", JOptionPane.WARNING_MESSAGE);
             TxtCPF.requestFocus();
             return;
         }
         //Iniciação da validão de data verdadeira;
         Boolean ValidacaoData = ValidaData.ValidarData(TxtNascimento.getText());
         if(ValidacaoData == false){
-            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!");
+            JOptionPane.showMessageDialog(null, "Data Invalida. Digite uma data verdadeira!","Erro",JOptionPane.WARNING_MESSAGE);
             TxtNascimento.requestFocus();
             return;
         }
@@ -917,7 +917,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
              //Validao Email
             Boolean ValidaoEmail = ValidaEmail.ValidarEmail(TxtEmail.getText());
             if(ValidaoEmail == false){
-               JOptionPane.showMessageDialog(null, "Email invalido!");
+               JOptionPane.showMessageDialog(null, "Email invalido!","Erro",JOptionPane.WARNING_MESSAGE);
                TxtEmail.requestFocus();
                return;
             }
@@ -1036,7 +1036,7 @@ public class ProfissionaisView extends javax.swing.JInternalFrame {
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
        if(TxtId.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","Aviso", JOptionPane.INFORMATION_MESSAGE);
        }
        else{
            profissional.setId(Integer.parseInt(TxtId.getText()));

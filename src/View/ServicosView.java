@@ -851,7 +851,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
             try {
                 listaservico = servicodao.BuscarDescricao(TxtPesquisa.getText());
                 if(listaservico == null){
-                    JOptionPane.showMessageDialog(null, "Nenhum Serviço encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Nenhum serviço encontrado!","Aviso", JOptionPane.INFORMATION_MESSAGE);
                     atualizaTabelaServico();
                 }else{
                     atualizaTabelaServicoBusca();
@@ -872,7 +872,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         servico = new Servico();
 
         if(TxtId.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             servico.setId(Integer.parseInt(TxtId.getText()));
@@ -942,7 +942,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
             try {
                 servicodao.Salvar(servico);
-                JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -958,7 +958,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
             try {
                 servicodao.Alterar(servico);
-                JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Serviço alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException ex) {
                 Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -988,7 +988,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
              try {
                  areadao.Salvar(area);
-                 JOptionPane.showMessageDialog(null, "Gravado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(null, "Área cadastrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
              } catch (SQLException ex) {
                  Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
              }
@@ -999,7 +999,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
 
              try {
                  areadao.Alterar(area);
-                 JOptionPane.showMessageDialog(null, "Alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                 JOptionPane.showMessageDialog(null, "Área alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
              } catch (SQLException ex) {
                  Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
              }
@@ -1035,7 +1035,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
          area = new Area();
 
         if(TxtIdArea.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","erro", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Selecione um dado para exlui-lo!","Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             area.setId(Integer.parseInt(TxtIdArea.getText()));

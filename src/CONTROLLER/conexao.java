@@ -54,16 +54,17 @@ public class conexao {
 //            erro.printStackTrace();
 //        }
         
-        usuario = "root";
-        senha = "";
-        url = "jdbc:mysql://localhost:3306/pratileira?autoReconnect=true&useSSL=false";
+        usuario = "agendamento";
+        senha = "Uemg2018";
+        url = "jdbc:mysql://10.93.10.10:3306/pratileira?autoReconnect=true&useSSL=false";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");
             connection = (Connection) DriverManager.getConnection(url, usuario, senha);
             
         }catch (ClassNotFoundException | SQLException e){
-            JOptionPane.showMessageDialog(null, "Erro "+e.getMessage());
+            JOptionPane.showMessageDialog(null, "Sem conexão com o Banco de Dados!\n    Entre em contato com o NUPSI!","Erro",JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
     }
     }
     public static Connection getInstance() throws SQLException

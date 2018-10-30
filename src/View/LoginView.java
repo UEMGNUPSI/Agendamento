@@ -222,6 +222,7 @@ public class LoginView extends javax.swing.JFrame {
              
              if(funcionario == null){
                   TxtSenha.setText("");
+                  TxtSenha.requestFocus();
                   jLMenssagem.setVisible(true);
              }
              else{
@@ -234,7 +235,7 @@ public class LoginView extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnEntrarActionPerformed
 
     private void BtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSairActionPerformed
-        System.exit(1);
+        System.exit(0);
     }//GEN-LAST:event_BtnSairActionPerformed
 
    
