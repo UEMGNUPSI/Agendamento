@@ -292,7 +292,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         PainelCliente.setBackground(new java.awt.Color(255, 255, 255));
         PainelCliente.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -637,7 +637,6 @@ public class ClienteView extends javax.swing.JInternalFrame {
             new Object [][] {
                 {"Douglas", null, null, null},
                 {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -808,13 +807,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TxtCepActionPerformed
 
     private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoActionPerformed
-       AtivarCampos();
-       PrepararNovo();
-       LimparCampos();
+        TxtNomeCompleto.requestFocus();
+        AtivarCampos();
+        PrepararNovo();
+        LimparCampos();
     }//GEN-LAST:event_BtnNovoActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro ? Isso irá apagar todos os dados ja inseridos. ");
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro? Isso irá apagar todos os dados ja inseridos. ");
         if(confirma == 0){
             LimparCampos();
             DesativarCampos();

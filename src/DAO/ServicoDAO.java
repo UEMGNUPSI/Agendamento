@@ -24,7 +24,7 @@ public class ServicoDAO {
         PreparedStatement pst;
         String sql;
         
-        sql =  "INSERT INTO serviços SET descricao = ?, idarea = ?, tempo = ?";
+        sql =  "INSERT INTO serviços SET descricao = ?, idarea = ?, tempo = ?,ativo = 0";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setString(1, servico.getDescricao());
@@ -54,7 +54,7 @@ public class ServicoDAO {
         PreparedStatement pst;
         String sql;
         
-        sql = "DELETE FROM serviços where idserviços = ?";
+        sql = "UPDATE serviços set ativo = 1 where idserviços = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setInt(1, servico.getId());
@@ -68,7 +68,7 @@ public class ServicoDAO {
         String sql;   
         List<Servico> listaservico = new ArrayList<>();
         
-        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços ORDER BY idarea";
+        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços WHERE ativo = 0 ORDER BY idarea";
         pst = conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         
@@ -90,7 +90,7 @@ public class ServicoDAO {
          List<Servico> listaservico = new ArrayList<>();
         String name = "%"+descricao+"%";
         
-        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços where descricao LIKE ?";
+        sql = "SELECT idserviços, descricao, idarea, TIME_FORMAT(tempo, '%H:%i') AS tempo FROM serviços where descricao LIKE ? AND ativo = 0";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, name);
         ResultSet rs = pst.executeQuery();

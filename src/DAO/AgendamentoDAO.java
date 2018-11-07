@@ -170,27 +170,20 @@ public class AgendamentoDAO {
         return listaagendamento;
     }
     
-    public List<Agendamento> verificarVaga(String Id, String inicio,String fim,String data) throws SQLException{
+    public List<Agendamento> verificaVagaAlterar(String data,String id,String idAgendamento) throws SQLException{
         PreparedStatement pst;
-        String sql;
+        String sql;   
         List<Agendamento> listaagendamento = new ArrayList<>();
         
-        sql = "Select idagendamento,idcliente, idfuncionario, idprofissionais, idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
+        sql = "SELECT idagendamento,idcliente, idfuncionario, idprofissionais, idserviços, DATE_FORMAT( dataAgendamento, \"%d/%m/%Y\" ) AS dataAgendamento, "
                 + "TIME_FORMAT(horarioAgendamento, '%H:%i') AS horarioAgendamento, TIME_FORMAT(horarioPrevistoTermino, '%H:%i') AS horarioPrevistoTermino, "
                 + "DATE_FORMAT( dataCancelamento, \"%d/%m/%Y\" ) AS dataCancelamento, DATE_FORMAT( dataAtendimento, \"%d/%m/%Y\" ) AS dataAtendimento, "
-                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento "
-                + "FROM pratileira.agendamento where  idprofissionais = ? AND ( dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) AND ( horarioAgendamento between ? AND ? "
-                + "OR horarioPrevistoTermino between ? AND ? ))  order by horarioAgendamento ";
-        
+                + "TIME_FORMAT(horarioAtendimento, '%H:%i') AS horarioAtendimento FROM agendamento WHERE dataAgendamento = STR_TO_DATE( ?, \"%d/%m/%Y\" ) "
+                + "AND idprofissionais = ? AND not idagendamento = ? order by horarioAgendamento  ";
         pst = conexao.getInstance().prepareStatement(sql);
-        pst.setInt(1, Integer.parseInt(Id));
-        pst.setString(2, data);
-        pst.setString(3, inicio);
-        pst.setString(4, fim);
-        pst.setString(5, inicio);
-        pst.setString(6, fim);
-        
-        
+        pst.setString(1, data);
+        pst.setString(2, id);
+        pst.setString(3, idAgendamento);
         ResultSet rs = pst.executeQuery();
         
         while(rs.next()){

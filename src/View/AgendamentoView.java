@@ -89,6 +89,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         TxtIdAgendamento.setVisible(false);
         TxtId.setVisible(false);
         TxtRemarcar.setVisible(false);
+        TxtAlterar.setVisible(false);
         
         jDAgendar.setSize(511,394);
         jDProfissional.setSize(704, 512);
@@ -634,6 +635,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         BtnSair = new javax.swing.JButton();
         TxtId = new javax.swing.JTextField();
         BtnRemarcar = new javax.swing.JButton();
+        TxtAlterar = new javax.swing.JTextField();
 
         jDAgendar.setMinimumSize(new java.awt.Dimension(511, 394));
         jDAgendar.setUndecorated(true);
@@ -1177,21 +1179,19 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(428, 428, 428)
-                        .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(25, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(428, 428, 428)
+                            .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)))
+                    .addComponent(jLabel16))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1408,6 +1408,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             }
         });
 
+        TxtAlterar.setEnabled(false);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1420,6 +1422,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(BtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TxtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(52, 52, 52)
                                 .addComponent(BtnAgendar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1453,7 +1457,8 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     .addComponent(BtnCancelar)
                     .addComponent(BtnSair)
                     .addComponent(TxtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnRemarcar))
+                    .addComponent(BtnRemarcar)
+                    .addComponent(TxtAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39))
         );
 
@@ -1472,6 +1477,9 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void TxtClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TxtClienteMouseClicked
+        if(TxtRemarcar.getText().equals("1")){
+            return;
+        }
         jDCliente.setVisible(true);
         jDCliente.setLocationRelativeTo(null);
     }//GEN-LAST:event_TxtClienteMouseClicked
@@ -1641,57 +1649,61 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             int hora ;
             int minutos ;
             
-                hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
-                minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) - 1;
+            hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
+            minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) - 1;
 
-                if(minutos>=60){
-                    hora = hora+1;
-                    minutos = minutos - 60;
-                }
-                if(minutos<=-1){
-                    minutos = 59;
-                    hora = hora-01;
-                }
-                String horafinal = Integer.toString(hora)+":"+Integer.toString(minutos);
-                
-                //Verifica se o horario presvisto de termino entra entre o horario de funcionamento
-                
-                if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 1900){
-                    int confirma = JOptionPane.showConfirmDialog(null, "Horário excede o horário de funcionamento. Deseja agendar ?", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                    if(confirma == 1){
-                        return;  
-                    }            
-                }
-                if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 2359){
-                    JOptionPane.showMessageDialog(null, "Horário ultrapassa ás 24h do dia. Por favor verificar o horário a agendar!", "Erro", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                    
-                    
-                hora  = Integer.parseInt(horarioAtendimento[0]) ;
-                minutos  = Integer.parseInt(horarioAtendimento[1]);
-                if(minutos>=60){
-                    hora = hora+1;
-                    minutos = minutos - 60;
-                }
-  
-                String horainicio = Integer.toString(hora)+":"+Integer.toString(minutos);
-                
-                
-                
-                hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
-                minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) ;
-                if(minutos>=60){
-                    hora = hora+1;
-                    minutos = minutos - 60 ;
-                }
-                String horafinal1 = Integer.toString(hora)+":"+Integer.toString(minutos);
+            if(minutos>=60){
+                hora = hora+1;
+                minutos = minutos - 60;
+            }
+            if(minutos<=-1){
+                minutos = 59;
+                hora = hora-01;
+            }
+            String horafinal = Integer.toString(hora)+":"+Integer.toString(minutos);
+
+            //Verifica se o horario presvisto de termino entra entre o horario de funcionamento
+
+            if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 1900){
+                int confirma = JOptionPane.showConfirmDialog(null, "Horário excede o horário de funcionamento. Deseja agendar ?", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                if(confirma == 1){
+                    return;  
+                }            
+            }
+            if(Integer.parseInt(Integer.toString(hora)+Integer.toString(minutos)) >= 2359){
+                JOptionPane.showMessageDialog(null, "Horário ultrapassa ás 24h do dia. Por favor verificar o horário a agendar!", "Erro", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+
+            hora  = Integer.parseInt(horarioAtendimento[0]) ;
+            minutos  = Integer.parseInt(horarioAtendimento[1]);
+            if(minutos>=60){
+                hora = hora+1;
+                minutos = minutos - 60;
+            }
+
+            String horainicio = Integer.toString(hora)+":"+Integer.toString(minutos);
+
+
+
+            hora  = (Integer.parseInt(horarioAtendimento[0]) + Integer.parseInt(horarioServico[0])) ;
+            minutos  = (Integer.parseInt(horarioAtendimento[1]) + Integer.parseInt(horarioServico[1])) ;
+            if(minutos>=60){
+                hora = hora+1;
+                minutos = minutos - 60 ;
+            }
+            String horafinal1 = Integer.toString(hora)+":"+Integer.toString(minutos);
                 
             
                 
             try {
-                //listaagendamento = agendamentodao.verificarVaga(TxtIdProfissional.getText(),horainicio, horafinal,TxtData.getText());
-                listaagendamento = agendamentodao.verificaVaga(TxtData.getText(),TxtIdProfissional.getText());
+                if(TxtAlterar.getText().equals("1")){
+                    listaagendamento = agendamentodao.verificaVagaAlterar(TxtData.getText(),TxtIdProfissional.getText(),TxtIdAgendamento.getText());
+                }
+                else{
+                    listaagendamento = agendamentodao.verificaVaga(TxtData.getText(),TxtIdProfissional.getText());
+                }               
                 listaagendamento.size();
             } catch (SQLException ex) {
                 Logger.getLogger(AgendamentoView.class.getName()).log(Level.SEVERE, null, ex);
@@ -1770,17 +1782,50 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     String[] horaAgendamento      = agendamento.getHorarioAgendamento().split(":");
                     String[] horaTermino          = agendamento.getHorarioPrevistoTermino().split(":");
                     String[] horaAgendamentoAtual = TxtHorario.getText().split(":");
+                    String[] horaAgendamentoFinal = horafinal1.split(":");
                     
                     String HoraAg = horaAgendamento[0] + horaAgendamento[1];
                     String HoraTe = horaTermino[0] + horaTermino[1];
                     String HoraAgeAtua   = horaAgendamentoAtual[0] + horaAgendamentoAtual[1];
+                    String HoraAgeFinal =  horaAgendamentoFinal[0] + horaAgendamentoFinal[1];
+                    int teste = Integer.parseInt(horaAgendamentoFinal[1]);
+                    if(teste >= 1 && teste <= 9){
+                        HoraAgeFinal = horaAgendamentoFinal[0] + String.format("%01d", new Object[] { teste });
+                    }
+                    if(teste == 0){
+                        HoraAgeFinal = horaAgendamentoFinal[0] + String.format("%02d", new Object[] { teste });
+                    }
                     
                     int HoraAgendamento = Integer.parseInt(HoraAg); 
                     int HoraTermino     = Integer.parseInt(HoraTe); 
                     int HoraAgendamentoAtual = Integer.parseInt(HoraAgeAtua); 
+                    int HoraAgendamentoFinal = Integer.parseInt(HoraAgeFinal);
                     //JOptionPane.showMessageDialog(null, "HoraAtual: "+HoraAgendamentoAtual+" >= HoraAgendamento: "+HoraAgendamento+" && HoraAtual: "+HoraAgendamentoAtual+" < HoraTermino: "+HoraTermino);//" || HoraAtual:"+HoraAgendamentoAtual+" < HoraTermino: "+HoraTermino
-                    if(HoraAgendamentoAtual >= HoraAgendamento && HoraAgendamentoAtual < HoraTermino ){  
-                        //|| (HoraAgendamentoAtual < HoraTermino)
+//                    if(HoraAgendamentoAtual >= HoraAgendamento && HoraAgendamentoAtual < HoraTermino ){  
+//                        //|| (HoraAgendamentoAtual < HoraTermino)
+//                        JOptionPane.showMessageDialog(null, "Houve um conflito de horário!", "Conflito", JOptionPane.WARNING_MESSAGE);
+//                        return;
+//                    } 
+                    if(HoraAgendamentoAtual > HoraAgendamento){
+                        //JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" > HoraAgendamento"+HoraAgendamento);
+                        if(HoraAgendamentoAtual >= HoraTermino){
+                           // JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" >= HoraTermino"+HoraTermino);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Houve um conflito de horário!", "Conflito", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                    }
+                    if(HoraAgendamentoAtual < HoraAgendamento){
+                        if(HoraAgendamentoFinal <= HoraAgendamento){
+                            //JOptionPane.showMessageDialog(null, " HoraAgendamentoFinal: "+HoraAgendamentoFinal+" <= HoraTermino"+HoraTermino);
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Houve um conflito de horário!", "Conflito", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+                    }
+                    if(HoraAgendamentoAtual == HoraAgendamento){
                         JOptionPane.showMessageDialog(null, "Houve um conflito de horário!", "Conflito", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
@@ -1920,6 +1965,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_TblAgendamentoMouseClicked
 
     private void BtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAlterarActionPerformed
+        TxtAlterar.setText("1");
         jDAgendar.setVisible(true);
         jDAgendar.setLocationRelativeTo(null);
     }//GEN-LAST:event_BtnAlterarActionPerformed
@@ -2135,6 +2181,7 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
     private javax.swing.JTable TblCliente;
     private javax.swing.JTable TblProfissionais;
     private javax.swing.JTable TblServico;
+    private javax.swing.JTextField TxtAlterar;
     private javax.swing.JTextField TxtCliente;
     private javax.swing.JFormattedTextField TxtData;
     private javax.swing.JFormattedTextField TxtHorario;

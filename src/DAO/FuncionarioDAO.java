@@ -24,7 +24,7 @@ public class FuncionarioDAO {
         String sql;
         
         sql = "INSERT INTO funcionario set nome = ?, rg = ?, cpf = ?, nascimento = STR_TO_DATE( ?, \"%d/%m/%Y\" ), telefone1 = ?, telefone2 = ?, email = ?, "
-                + " endereco = ?, numero = ?, bairro = ?, cidade = ?, cep = ?, login = ?, senha = ?, nivel = ? ";
+                + " endereco = ?, numero = ?, bairro = ?, cidade = ?, cep = ?, login = ?, senha = ?, nivel = ?, ativo = 0 ";
         
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, funcionario.getNome());
@@ -80,7 +80,7 @@ public class FuncionarioDAO {
         PreparedStatement pst;
         String sql;
         
-        sql = "delete from funcionario where idfuncionario = ?";
+        sql = "update funcionario set ativo = 1 where idfuncionario = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, funcionario.getId());
         pst.execute();
@@ -92,7 +92,7 @@ public class FuncionarioDAO {
         List<Funcionario> listafuncionario = new ArrayList<>();
 
         sql = "select idfuncionario, nome, rg, cpf, DATE_FORMAT( nascimento, \"%d/%m/%Y\" ) AS nascimento, telefone1, telefone2, email, "
-            + " endereco, numero, bairro, cidade, cep, login, senha, nivel from funcionario order by nome ";
+            + " endereco, numero, bairro, cidade, cep, login, senha, nivel from funcionario where ativo = 0 order by nome ";
         pst = conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         
@@ -126,7 +126,7 @@ public class FuncionarioDAO {
         List<Funcionario> listafuncionario = new ArrayList<>();
         String name = "%"+nome+"%";
         sql = "select idfuncionario, nome, rg, cpf, DATE_FORMAT( nascimento, \"%d/%m/%Y\" ) AS nascimento, telefone1, telefone2, email, "
-            + " endereco, numero, bairro, cidade, cep, login, senha, nivel from funcionario where nome LIKE ? ";
+            + " endereco, numero, bairro, cidade, cep, login, senha, nivel from funcionario where nome LIKE ? and ativo = 0";
 
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, name);

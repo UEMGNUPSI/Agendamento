@@ -200,9 +200,14 @@ public class ServicosView extends javax.swing.JInternalFrame {
     
     public void atualizaTabelaServicoBusca(){
         servico = new Servico();
-       
         
-        String dados[][] = new String[listaservico.size()][4];
+        try {
+            listaarea    = areadao.listaTodos();
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaservico.size()][5];
             int i = 0;
             for (Servico servico : listaservico) {
                 dados[i][0] = String.valueOf(servico.getId());
@@ -212,10 +217,11 @@ public class ServicosView extends javax.swing.JInternalFrame {
                          dados[i][2] = String.valueOf(area.getNome());
                     }}
                 dados[i][3] = servico.getTempo();
+                dados[i][4] = String.valueOf(servico.getIdArea());
                 i++;
             }
             
-            String tituloColuna[] = {"Id", "Descrição", "Área", "Tempo estimado"};
+            String tituloColuna[] = {"Id", "Descrição", "Área", "Tempo estimado","Idarea"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             TblServico.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -232,6 +238,9 @@ public class ServicosView extends javax.swing.JInternalFrame {
             TblServico.getColumnModel().getColumn(0).setMaxWidth(0);
             TblServico.getColumnModel().getColumn(0).setMinWidth(0);
             TblServico.getColumnModel().getColumn(0).setPreferredWidth(0);
+            TblServico.getColumnModel().getColumn(4).setMaxWidth(0);
+            TblServico.getColumnModel().getColumn(4).setMinWidth(0);
+            TblServico.getColumnModel().getColumn(4).setPreferredWidth(0);
             
             TblServico.getColumnModel().getColumn(1).setPreferredWidth(350);
             TblServico.getColumnModel().getColumn(2).setPreferredWidth(150);
@@ -310,6 +319,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
     
     public void LimparCampo(){
         TxtNomeArea.setText("");
+        TxtIdArea.setText("");
     }
     
     public void LimparCampos(){
@@ -866,6 +876,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         AtivarCampos();
         PrepararNovo();
         PainelServico.setSelectedIndex(0);
+        
     }//GEN-LAST:event_BtnAlterarActionPerformed
 
     private void BtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirActionPerformed
@@ -901,6 +912,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         servico.setIdArea(Integer.parseInt(TblServico.getValueAt(TblServico.getSelectedRow(),4).toString()));
          
         try {
+            ComboArea.removeAllItems();
             preencherComboSelecionado(servico);
         } catch (SQLException ex) {
             Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
@@ -925,7 +937,7 @@ public class ServicosView extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ServicosView.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+        TxtDescricao.requestDefaultFocus();
         PrepararNovo();
         AtivarCampos();
         LimparCampos();
@@ -1020,15 +1032,19 @@ public class ServicosView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_BtnNovaAreaActionPerformed
 
     private void BtnNovoJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnNovoJDActionPerformed
-         PrepararNovoArea();
-         LimparCampo();
-         AtivarCampo();
+        TxtNomeArea.requestFocus();
+        PrepararNovoArea();
+        LimparCampo();
+        AtivarCampo();
     }//GEN-LAST:event_BtnNovoJDActionPerformed
 
     private void BtnCancelarJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarJDActionPerformed
-        LimparCampo();
-        DesativarCampo();
-        PrepararCancelarSalvarArea();
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja cancelar o cadastro? Isso irá apagar todos os dados ja inseridos. ");
+        if(confirma == 0){
+            LimparCampo();
+            DesativarCampo();
+            PrepararCancelarSalvarArea();
+        }    
     }//GEN-LAST:event_BtnCancelarJDActionPerformed
 
     private void BtnExcluirJDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnExcluirJDActionPerformed

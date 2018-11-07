@@ -54,9 +54,9 @@ public class conexao {
 //            erro.printStackTrace();
 //        }
         
-        usuario = "agendamento";
-        senha = "Uemg2018";
-        url = "jdbc:mysql://10.93.10.10:3306/pratileira?autoReconnect=true&useSSL=false";
+        usuario = "root";
+        senha = "";
+        url = "jdbc:mysql://localhost:3306/pratileira?autoReconnect=true&useSSL=false";
         
         try{
             Class.forName("com.mysql.jdbc.Driver");

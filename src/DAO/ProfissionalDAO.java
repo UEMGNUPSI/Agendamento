@@ -25,7 +25,7 @@ public class ProfissionalDAO {
         String sql;
         
         sql = "INSERT INTO profissionais set nome = ?, rg = ?, cpf = ?, nascimento = STR_TO_DATE( ?, \"%d/%m/%Y\" ), telefone1 = ?, telefone2 = ?, email = ?, endereco = ?, cidade = ?, cep = ?, bairro = ?,"
-                + "numero = ?, formacao = ?, idarea = ?";
+                + "numero = ?, formacao = ?, idarea = ?, ativo = 0";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, profissional.getNome());
         pst.setString(2, profissional.getRg());
@@ -78,7 +78,7 @@ public class ProfissionalDAO {
         PreparedStatement pst;
         String sql;
         
-        sql = "DELETE from profissionais where idprofissionais = ?";
+        sql = "UPDATE profissionais set ativo = 1 where idprofissionais = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, profissional.getId());
         
@@ -92,7 +92,7 @@ public class ProfissionalDAO {
         List<Profissional> listaprofissionais = new ArrayList<>();
 
         sql = "select idprofissionais, nome, rg, cpf, DATE_FORMAT( nascimento, \"%d/%m/%Y\" ) AS nascimento, telefone1, telefone2, email, "
-            + " endereco, cidade, cep, bairro, numero, formacao, idarea  from profissionais order by nome ";
+            + " endereco, cidade, cep, bairro, numero, formacao, idarea  from profissionais where ativo = 0 order by nome ";
         pst = conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         
@@ -125,7 +125,7 @@ public class ProfissionalDAO {
         List<Profissional> listaprofissionais = new ArrayList<>();
         String name = "%"+nome+"%";
         sql = "select idprofissionais, nome, rg, cpf, DATE_FORMAT( nascimento, \"%d/%m/%Y\" ) AS nascimento, telefone1, telefone2, email, "
-            + "  endereco, cidade, cep, bairro, numero, formacao, idarea  from profissionais where nome LIKE ? ";
+            + "  endereco, cidade, cep, bairro, numero, formacao, idarea  from profissionais where nome LIKE ? and ativo = 0";
 
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setString(1, name);

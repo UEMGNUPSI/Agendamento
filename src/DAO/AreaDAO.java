@@ -23,7 +23,7 @@ public class AreaDAO {
         PreparedStatement pst;
         String sql;
         
-        sql =  "INSERT INTO area SET nome = ?";
+        sql =  "INSERT INTO area SET nome = ?, ativo = 0";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setString(1, area.getNome());
@@ -36,7 +36,7 @@ public class AreaDAO {
         PreparedStatement pst;
         String sql;
         
-        sql =  "UPDATE area set nome = ? where idarea = ?";
+        sql =  "UPDATE area SET nome = ? where idarea = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         
         pst.setString(1, area.getNome());
@@ -51,7 +51,7 @@ public class AreaDAO {
         PreparedStatement pst;
         String sql;
         
-        sql = "DELETE FROM area where idarea = ?";
+        sql = "UPDATE area SET ativo = 1 WHERE idarea = ?";
         pst = conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, area.getId());
         
@@ -64,7 +64,7 @@ public class AreaDAO {
         String sql;   
         List<Area> listaArea = new ArrayList<>();
         
-        sql = "SELECT * FROM area ORDER BY nome";
+        sql = "SELECT * FROM area WHERE ativo = 0 ORDER BY nome ";
         pst = conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         
