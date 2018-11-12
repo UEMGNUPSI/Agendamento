@@ -1181,17 +1181,19 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(428, 428, 428)
-                            .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addComponent(jLabel16))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(BtnCancelar3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(428, 428, 428)
+                        .addComponent(BtnSelecionarS, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1790,10 +1792,13 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
                     String HoraAgeFinal =  horaAgendamentoFinal[0] + horaAgendamentoFinal[1];
                     int teste = Integer.parseInt(horaAgendamentoFinal[1]);
                     if(teste >= 1 && teste <= 9){
-                        HoraAgeFinal = horaAgendamentoFinal[0] + String.format("%01d", new Object[] { teste });
+                        HoraAgeFinal = horaAgendamentoFinal[0] + String.format("%02d", new Object[] { teste });
+                        
+                        
                     }
                     if(teste == 0){
                         HoraAgeFinal = horaAgendamentoFinal[0] + String.format("%02d", new Object[] { teste });
+                       
                     }
                     
                     int HoraAgendamento = Integer.parseInt(HoraAg); 
@@ -1807,9 +1812,9 @@ public class AgendamentoView extends javax.swing.JInternalFrame {
 //                        return;
 //                    } 
                     if(HoraAgendamentoAtual > HoraAgendamento){
-                        //JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" > HoraAgendamento"+HoraAgendamento);
+                        JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" > HoraAgendamento"+HoraAgendamento);
                         if(HoraAgendamentoAtual >= HoraTermino){
-                           // JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" >= HoraTermino"+HoraTermino);
+                            //JOptionPane.showMessageDialog(null, " HoraAgendamentoAtual: "+HoraAgendamentoAtual+" >= HoraTermino"+HoraTermino);
                         }
                         else{
                             JOptionPane.showMessageDialog(null, "Houve um conflito de horário!", "Conflito", JOptionPane.WARNING_MESSAGE);
